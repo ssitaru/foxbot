@@ -36,9 +36,17 @@ If you want to fork this and extend it yourself, feel free to do so.
 
 You should find the code very interesting, but here's some notes:
 * Look for the variable o_chatcmds if you want to add any commands. The syntax is
-```
+
+```javascript
+var o_chatcmds = {
 	'/commandname': {
 		f: f_yourCommandfunction,
 		needsPerm: true/false
-	}
+	}, ...
+};
 ```
+
+* If you want to add any init code, do so in the `init()` function. By default, it will initialize the following:
+	1. send online message
+	2. add the event listeners
+	3. mute the player
