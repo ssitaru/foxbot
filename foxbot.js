@@ -1,4 +1,10 @@
-﻿var b_autoSkip = true;
+﻿/*
+ * foxbot.js - a bot for plug.dj
+ * 
+ * Copyright (C) 2012 by 1NT and FoxtrotFire
+ */
+
+var b_autoSkip = true;
 var a_jokes = Array(); 
 
  window.setTimeout(function(){API.sendChat('/me [foxbot] Online!');}, 5000); 
