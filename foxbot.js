@@ -134,9 +134,10 @@ function f_joke(data) {
 }
 function f_test(data) {
 	if(b_autoSkip == false) {
-	API.sendChat('/me [foxbot] Systems are online and functional! Autoskip is disabled');
+		API.sendChat('/me [foxbot] Systems are online and functional! [Autoskip: disabled]');
 	} else {
-	API.sendChat('/me [foxbot] Systems are online and functional! Autoskip is enabled');
+		API.sendChat('/me [foxbot] Systems are online and functional! [Autoskip: enabled]');
+	}
 }
 function f_reload(data) {
 		API.sendChat('/me [foxbot] System Reloading!');
