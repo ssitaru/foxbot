@@ -14,6 +14,10 @@ Authors
 -------
 
 
+Changelog
+---------
+v0.1 (Sep 2, 2012): Initial github version
+
 
 For Developers
 --------------
