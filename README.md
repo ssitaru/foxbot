@@ -4,11 +4,16 @@ foxbot is a great way for room moderators on [plug.dj](http://plug.dj) to entert
 
 Installation
 ------------
-Currently we support one method of installation -- through a Greasemonkey user script.
-* Download the script here
-* Rename it to foxbot.user.js
-* Open [file:///](file:///) in Firefox and navigate to the path where you downloaded it
-* Run the script
+Currently we support two methods of installation:
+
+### Chainloading the script ###
+* Open [this](https://raw.github.com/ssitaru/foxbot/master/chainloader.js)
+* Copy the code
+* Paste it into your browser's javascript console (Chrome: Ctrl-Shift-J, Firefox: Ctrl-Shift-K)
+* Enjoy!
+
+### Greasemonkey script ####
+* Coming soon!
 
 Authors
 -------
