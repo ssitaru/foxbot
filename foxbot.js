@@ -133,7 +133,10 @@ function f_joke(data) {
         API.sendChat('/me [foxbot] Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
-		API.sendChat('/me [foxbot] Systems are online and functional!');
+	if(b_autoSkip == false) {
+	API.sendChat('/me [foxbot] Systems are online and functional! Autoskip is disabled');
+	} else {
+	API.sendChat('/me [foxbot] Systems are online and functional! Autoskip is enabled');
 }
 function f_reload(data) {
 		API.sendChat('/me [foxbot] System Reloading!');
