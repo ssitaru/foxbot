@@ -1,6 +1,7 @@
 ﻿var b_autoSkip = true;
- 
- API.sendChat('/me [foxbot] Online!'); 
+var a_jokes = Array(); 
+
+ window.setTimeout(function(){API.sendChat('/me [foxbot] Online!');}, 5000); 
  
 	API.addEventListener(API.USER_JOIN, join);
     function join(user)
@@ -21,7 +22,7 @@
 	}
     
 function f_commands(data) {
-        API.sendChat('[foxbot] Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip');
+        API.sendChat('/me [foxbot] Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip, /joke, /test, /reload');
 }
 
 function f_skip(data) {
@@ -30,8 +31,8 @@ function f_skip(data) {
 		window.setTimeout(function(){API.sendChat("/me [foxbot] Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
 }
 function f_long(data) {
-        API.sendChat('/me [foxbot] Current DJ got skipped by foxbot!');
         window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
+		window.setTimeout(function(){API.sendChat('/me [foxbot] Current DJ got skipped by foxbot!');}, 1500);
 }
 function f_lock(data) {
         API.sendChat('/me [foxbot] Dj Booth has been locked by operator!');
@@ -94,7 +95,7 @@ function f_rule(data) {
         API.sendChat('[foxbot] @'+data.from+' Rules: No song over 10 minutes long. Only play EDM, other songs will be skipped. Dont play overplayed songs, if your song is deemed overplayed you get a second chance.');
 }
 function f_about(data) {
-		API.sendChat('/me [foxbot] Hello, I am foxbot. I am here to help the moderators and to entertain the crowd. For a list of my commands please type /commands. If you have any suggestions please contact FoxtrotFire.');
+		API.sendChat('/me [foxbot] Hello, I am foxbot. I am here to help the moderators and to entertain the crowd. For a list of my commands please type /commands. Copyright 1NT and FoxtrotFire .(contact one of us for suggestions)');
 }
 function f_brb(data) {
 		API.sendChat('[foxbot] @'+data.from+' Come back soon!');
@@ -102,21 +103,25 @@ function f_brb(data) {
 
 function f_toggleAutoskip(data) {
 	if(b_autoSkip == false) {
-		API.sendChat('[foxbot] Autoskip now enabled');
+		API.sendChat('/me [foxbot] Autoskip now enabled');
 		b_autoSkip = true;
 	} else {
-		API.sendChat('[foxbot] Autoskip now disabled');
+		API.sendChat('/me [foxbot] Autoskip now disabled');
 		b_autoSkip = false;
 	}
 	
 }
-
-var a_jokes = ['joke1', 'joke2'];
-
 function f_joke(data) {
-	n = Math.floor(Math.random()*a_jokes.length);
-	
-	API.sendChat('[foxbot] @'+data.from+' requested a joke, so here is joke #'+n+': '+a_jokes[n]);
+        n = Math.floor(Math.random()*a_jokes.length);
+       
+        API.sendChat('/me [foxbot] Joke #'+n+': '+a_jokes[n]);
+}
+function f_test(data) {
+		API.sendChat('/me [foxbot] Systems are online and functional!');
+}
+function f_reload(data) {
+		API.sendChat('/me [foxbot] System Reloading!');
+		window.setTimeout(function(){location.reload();}, 1000);
 }
  
 var o_chatcmds = {
@@ -168,10 +173,18 @@ var o_chatcmds = {
                 f: f_toggleAutoskip,
                 needsPerm: true
         },
-	'/joke' : {
-		f: f_joke,
-		needsPerm: false
-	}
+		'/joke': {
+                f: f_joke,
+                needsPerm: false
+        },
+		'/test': {
+                f: f_test,
+                needsPerm: true
+        },
+		'/reload': {
+                f: f_reload,
+                needsPerm: true
+        }
 };
  
 API.addEventListener(API.CHAT, f_checkChat);
@@ -185,7 +198,7 @@ function f_checkChat(data) {
                                         if(API.getUser(data.fromID).moderator) {
                                                 o_chatcmds[s].f(data);
                                         } else {
-                                                API.sendChat('@'+data.from+': you have insufficient permissions');
+                                                API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
                                         }
                                 } else {
                                         o_chatcmds[s].f(data);
@@ -210,7 +223,7 @@ function f_djAdvance(obj)
        
         if((i_timeRem > 10*60) && b_autoSkip) {
                 var o_djs = API.getDJs();
-                API.sendChat('@'+o_djs[0].username+' Sorry, your song is over the allowed time limit.');
+				API.sendChat('@'+o_djs[0].username+' Sorry, your song is over the allowed time limit.');
                 f_long(null);
         }
 }
