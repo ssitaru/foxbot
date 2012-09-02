@@ -237,7 +237,7 @@ var o_chatcmds = {
                 needsPerm: true
         },
 		'/autowoot': {
-                f: f_toogleAutowoot,
+                f: f_toggleAutowoot,
                 needsPerm: true
         },
 		'/autoqueue': {
