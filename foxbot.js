@@ -8,7 +8,7 @@ var b_autoSkip = true;
 var a_jokes = Array(); 
 
 function f_foxbotInit() { // init foxbot, gets called at the very end
-	window.setTimeout(function(){API.sendChat('/me [foxbot] Online!');}, 5000); 
+	window.setTimeout(function(){API.sendChat('/me [foxbot] System Online!');}, 5000); 
 	
 	// now all the event listeners
 	API.addEventListener(API.USER_JOIN, join);
@@ -29,12 +29,12 @@ function join(user)
 
 function leave(user)
 {
-    API.sendChat("/me [foxbot] " + user.username + " left the room")
+    API.sendChat("/me [foxbot] " + user.username + " left the room.")
 }
 	
 function f_curate(data)
 { 
-	API.sendChat("/me [foxbot] " + data.user.username + " curated this track") 
+	API.sendChat("/me [foxbot] " + data.user.username + " curated this track.") 
 }
     
 function f_commands(data) {
@@ -98,7 +98,7 @@ function f_retry(data) {
 }		
 function f_cookie(data) {
         API.sendChat('[foxbot] @'+data.from+': here you go!');
-        window.setTimeout(function(){API.sendChat('/me [foxbot] tosses a cookie at @'+data.from);}, 500);
+        window.setTimeout(function(){API.sendChat('/me [foxbot] tosses a cookie at '+data.from);}, 500);
 }
 function f_rape(data) {
         API.sendChat('/me [foxbot] slays @'+data.from+'!');
