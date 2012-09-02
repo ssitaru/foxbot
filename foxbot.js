@@ -45,7 +45,7 @@ function f_commands(data) {
 	{
 		cmds = cmds + cmd + ', ';
 	}
-	cmds_clean = cmds.splice(0, -2);
+	cmds_clean = cmds.slice(0, -2);
     //API.sendChat('/me [foxbot] Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip, /joke, /test, /reload');
 	API.sendChat('/me [foxbot] Commands currently supported are: '+cmds_clean);
 }
