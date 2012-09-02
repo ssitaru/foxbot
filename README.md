@@ -51,4 +51,4 @@ var o_chatcmds = {
 	2. add the event listeners
 	3. mute the player
 
-Oh, and a message to the dev at plug.dj: Please, please, please update your API documentation, it was a pain reverse-engineering that minified JS code ;)
+Oh, and a message to the devs at plug.dj: Please, please, please *update your API documentation*, it was a pain reverse-engineering that minified JS code ;)
