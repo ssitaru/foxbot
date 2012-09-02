@@ -1,3 +1,9 @@
+/*
+ * chainloader.js - a loader for foxbot
+ * 
+ * Copyright (C) 2012 by 1NT and FoxtrotFire
+ */
+ 
 $(document).ready(function(){
 	var scriptTag = document.createElement('script');
 	scriptTag.type = 'text/javascript';
