@@ -7,17 +7,22 @@ Installation
 Currently we support two methods of installation:
 
 ### Chainloading the script ###
-* Open [this](https://raw.github.com/ssitaru/foxbot/master/chainloader.js)
+* Click <a href="https://raw.github.com/ssitaru/foxbot/master/chainloader.js" target="_blank">this</a>
 * Copy the code
 * Paste it into your browser's javascript console (Chrome: Ctrl-Shift-J, Firefox: Ctrl-Shift-K)
 * Enjoy!
 
 ### Greasemonkey script ####
-* Coming soon!
+* Download chainloader.user.js
+* Run it in Greasemonkey
+* Enjoy!
 
 Authors
 -------
+* Sebastian Sitaru &lt;s.sitaru@gmx.de&gt; (1NT)
+* FoxtrotFire
 
+Find us in the [Super Awesome Electronic Room](http://www.plug.dj/super-awesome-edm-room-2/) (TZ: GMT+1).
 
 Changelog
 ---------
