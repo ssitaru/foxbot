@@ -5,6 +5,8 @@
  */
 
 var b_autoSkip = true;
+var b_autoWoot = true;
+var b_autoQueue = true;
 var a_jokes = Array(); 
 
 function f_foxbotInit() { // init foxbot, gets called at the very end
@@ -38,17 +40,24 @@ function f_curate(data)
 }
     
 function f_commands(data) {
-        API.sendChat('/me [foxbot] Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip, /joke, /test, /reload');
+	var cmds = '';
+	for(var cmd in o_chatcmds)
+	{
+		cmds = cmds + cmd + ', ';
+	}
+	cmds_clean = cmds.splice(0, -2);
+    //API.sendChat('/me [foxbot] Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip, /joke, /test, /reload');
+	API.sendChat('/me [foxbot] Commands currently supported are: '+cmds_clean);
 }
 
 function f_skip(data) {
-        API.sendChat('/me [foxbot] Current DJ has been skipped by operator!');
-        window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
-		window.setTimeout(function(){API.sendChat("/me [foxbot] Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
+    API.sendChat('/me [foxbot] Current DJ has been skipped by operator!');
+    window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
+	window.setTimeout(function(){API.sendChat("/me [foxbot] Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
 }
 function f_long(data) {
-        window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
-		window.setTimeout(function(){API.sendChat('/me [foxbot] Current DJ got skipped by foxbot!');}, 1500);
+    window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
+	window.setTimeout(function(){API.sendChat('/me [foxbot] Current DJ got skipped by foxbot!');}, 1500);
 }
 function f_lock(data) {
         API.sendChat('/me [foxbot] Dj Booth has been locked by operator!');
@@ -125,19 +134,41 @@ function f_toggleAutoskip(data) {
 		API.sendChat('/me [foxbot] Autoskip now disabled');
 		b_autoSkip = false;
 	}
-	
 }
+
+function f_toggleAutowoot(data) {
+	if(b_autoWoot == false) {
+		API.sendChat('/me [foxbot] Autowoot now enabled');
+		b_autoWoot = true;
+	} else {
+		API.sendChat('/me [foxbot] Autowoot now disabled');
+		b_autoWoot = false;
+	}
+}
+
+function f_toggleAutoqueue(data) {
+	if(b_autoQueue == false) {
+		API.sendChat('/me [foxbot] Autoqueue now enabled');
+		b_autoQueue = true;
+	} else {
+		API.sendChat('/me [foxbot] Autoqueue now disabled');
+		b_autoQueue = false;
+	}
+}
+
 function f_joke(data) {
         n = Math.floor(Math.random()*a_jokes.length);
        
         API.sendChat('/me [foxbot] Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
-	if(b_autoSkip == false) {
-		API.sendChat('/me [foxbot] Systems are online and functional! [Autoskip: disabled]');
-	} else {
-		API.sendChat('/me [foxbot] Systems are online and functional! [Autoskip: enabled]');
-	}
+	if(b_autoSkip == false) s_autoS = '0';
+	if(b_autoSkip == true) s_autoS = '1';
+	if(b_autoWoot == false) s_autoW = '0';
+	if(b_autoWoot == true) s_autoW = '1';
+	if(b_autoQueue == false) s_autoQ = '0';
+	if(b_autoQueue == true) s_autoQ = '1';
+	API.sendChat('/me [foxbot] Systems are online and functional! [AS: '+s_autoS+', AW: '+s_autoW+', AQ: '+s_autoQ+']');
 }
 function f_reload(data) {
 		API.sendChat('/me [foxbot] System Reloading!');
@@ -204,6 +235,14 @@ var o_chatcmds = {
 		'/reload': {
                 f: f_reload,
                 needsPerm: true
+        },
+		'/autowoot': {
+                f: f_toogleAutowoot,
+                needsPerm: true
+        },
+		'/autoqueue': {
+                f: f_toggleAutoqueue,
+                needsPerm: true
         }
 };
 
@@ -239,12 +278,26 @@ function f_djAdvance(obj)
         }
         a_timeRem = s_timeRem.toString().split(':');
         i_timeRem = (parseInt(a_timeRem[0])*60) + parseInt(a_timeRem[1]);
-       
+		
+		// auto-skip track if more than 10mins & enabled
         if((i_timeRem > 10*60) && b_autoSkip) {
                 var o_djs = API.getDJs();
 				API.sendChat('@'+o_djs[0].username+' Sorry, your song is over the allowed time limit.');
                 f_long(null);
         }
+		
+		// auto-woot the track if enabled
+		if(b_autoWoot) {
+			jQuery("#button-vote-positive").click();
+		}
+		
+		
+		// autoqueue if enabled
+		if(b_autoQueue) {
+			if(jQuery('#button-dj-waitlist-join').css('display') != 'none') {
+				jQuery('#button-dj-waitlist-join').click();
+			}
+		}
 }
 
 a_jokes = ["\
