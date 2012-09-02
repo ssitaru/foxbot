@@ -36,7 +36,7 @@ If you want to fork this and extend it yourself, feel free to do so.
 
 You should find the code very interesting, but here's some notes:
 * Look for the variable o_chatcmds if you want to add any commands. The syntax is
-```js
+```
 	'/commandname': {
 		f: f_yourCommandfunction,
 		needsPerm: true/false
