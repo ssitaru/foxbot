@@ -7,25 +7,35 @@
 var b_autoSkip = true;
 var a_jokes = Array(); 
 
- window.setTimeout(function(){API.sendChat('/me [foxbot] Online!');}, 5000); 
- 
-	API.addEventListener(API.USER_JOIN, join);
-    function join(user)
-    {
-    API.sendChat("[foxbot] @" + user.username + " Enjoy your stay in the Super Awesome Electronic Room! Use /commands to get a list of my commands.")
-    }
-     
-    API.addEventListener(API.USER_LEAVE, leave);
-    function leave(user)
-    {
-    API.sendChat("/me [foxbot] " + user.username + " left the room")
-    }
+function f_foxbotInit() { // init foxbot, gets called at the very end
+	window.setTimeout(function(){API.sendChat('/me [foxbot] Online!');}, 5000); 
 	
-	API.addEventListener("curateUpdate", f_curate); 
-	function f_curate(data)
-	{ 
+	// now all the event listeners
+	API.addEventListener(API.USER_JOIN, join);
+	API.addEventListener(API.USER_LEAVE, leave);
+	API.addEventListener("curateUpdate", f_curate);
+	API.addEventListener(API.CHAT, f_checkChat);
+	API.addEventListener(API.DJ_ADVANCE, f_djAdvance);
+	
+	// mute the player
+	Playback.setVolume(0);
+}
+
+
+function join(user)
+{
+    API.sendChat("[foxbot] @" + user.username + " Enjoy your stay in the Super Awesome Electronic Room! Use /commands to get a list of my commands.")
+}
+
+function leave(user)
+{
+    API.sendChat("/me [foxbot] " + user.username + " left the room")
+}
+	
+function f_curate(data)
+{ 
 	API.sendChat("/me [foxbot] " + data.user.username + " curated this track") 
-	}
+}
     
 function f_commands(data) {
         API.sendChat('/me [foxbot] Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip, /joke, /test, /reload');
@@ -192,8 +202,7 @@ var o_chatcmds = {
                 needsPerm: true
         }
 };
- 
-API.addEventListener(API.CHAT, f_checkChat);
+
 function f_checkChat(data) {
         if((data.type == "message") && (data.fromID != API.getSelf().id)) {
                 for(var s in o_chatcmds) {
@@ -215,7 +224,7 @@ function f_checkChat(data) {
                
         }
 }
-API.addEventListener(API.DJ_ADVANCE, f_djAdvance);
+
 function f_djAdvance(obj)
 {
         var i_timeRem = -1;
@@ -718,3 +727,5 @@ A. You go on a head, I'll just hang around!\
 Q. What would you call two banana skins?\
 A. A pair of slippers.\
 "];
+
+f_foxbotInit();
