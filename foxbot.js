@@ -119,7 +119,7 @@ function f_hug(data) {
         API.sendChat('/me [foxbot] hugs @'+data.from+'!');
 }
 function f_rule(data) {
-        API.sendChat('[foxbot] @'+data.from+' Rules: No song over 10 minutes long. Only play EDM, other songs will be skipped. Dont play overplayed songs, if your song is deemed overplayed you get a second chance.');
+        API.sendChat('[foxbot] @'+data.from+' Rules: Play whatever music you like, as long as it has electronic elements. Max Song Length: 10 Mins No spam please and dont overplay a song!');
 }
 function f_about(data) {
 		API.sendChat('/me [foxbot] Hello, I am foxbot. I am here to help the moderators and to entertain the crowd. For a list of my commands please type /commands. Copyright 1NT and FoxtrotFire .(contact one of us for suggestions)');
