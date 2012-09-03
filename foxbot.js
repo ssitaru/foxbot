@@ -176,7 +176,7 @@ function f_reload(data) {
 }
 
 function f_userIntentLeave(data) {
-	API.sendChat('@'+data.from+': we hope you enjoyed your stay in the Super Awesome Electronic Room, please visit us again soon!');
+	API.sendChat('[foxbot] @'+data.from+': we hope you enjoyed your stay in the Super Awesome Electronic Room, please visit us again soon!');
 }
  
 var o_chatcmds = {
