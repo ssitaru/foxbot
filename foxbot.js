@@ -174,6 +174,10 @@ function f_reload(data) {
 		API.sendChat('/me [foxbot] System Reloading!');
 		window.setTimeout(function(){location.reload();}, 1000);
 }
+
+function f_userIntentLeave(data) {
+	API.sendChat('@'+data.from+': we hope you enjoyed your stay in the Super Awesome Electronic Room, please visit us again soon!');
+}
  
 var o_chatcmds = {
         '/commands': {
@@ -243,6 +247,18 @@ var o_chatcmds = {
 		'/autoqueue': {
                 f: f_toggleAutoqueue,
                 needsPerm: true
+        },
+		'g2g': {
+                f: f_userIntentLeave,
+                needsPerm: false
+        },
+		'gotta go': {
+                f: f_userIntentLeave,
+                needsPerm: false
+        },
+		'got2go': {
+                f: f_userIntentLeave,
+                needsPerm: false
         }
 };
 
