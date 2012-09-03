@@ -27,7 +27,7 @@ function f_foxbotInit() { // init foxbot, gets called at the very end
 function join(user)
 {
     API.sendChat("[foxbot] @" + user.username + " Enjoy your stay in the Super Awesome Electronic Room! Use /commands to get a list of my commands. Please read our rules.");
-	f_rule(user);
+	f_rule({from: user.username});
 }
 
 function leave(user)
