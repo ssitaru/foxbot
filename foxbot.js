@@ -43,7 +43,9 @@ function f_commands(data) {
 	var cmds = '';
 	for(var cmd in o_chatcmds)
 	{
-		cmds = cmds + cmd + ', ';
+		if((cmd != 'brb') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'got2go')) {
+			cmds = cmds + cmd + ', ';
+		}
 	}
 	cmds_clean = cmds.slice(0, -2);
     //API.sendChat('/me [foxbot] Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip, /joke, /test, /reload');
