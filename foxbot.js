@@ -27,12 +27,12 @@ function f_foxbotInit() { // init foxbot, gets called at the very end
 function join(user)
 {
     API.sendChat("[foxbot] @" + user.username + " Enjoy your stay in the Super Awesome Electronic Room! Use /commands to get a list of my commands. Please obey the rules.");
-	f_rule({from: user.username});
+	 window.setTimeout(function(){f_rule({from: user.username});}, 1000);
 }
 
 function leave(user)
 {
-    API.sendChat("/me [foxbot] " + user.username + " left the room.");
+    API.sendChat("/me [foxbot] " + user.username + " left the room. =( ");
 }
 	
 function f_curate(data)
