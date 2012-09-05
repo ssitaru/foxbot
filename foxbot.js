@@ -177,7 +177,9 @@ function f_test(data) {
 	if(b_autoWoot == true) s_autoW = '1';
 	if(b_autoQueue == false) s_autoQ = '0';
 	if(b_autoQueue == true) s_autoQ = '1';
-	API.sendChat('/me [foxbot] Systems are online and functional! [AS: '+s_autoS+', AW: '+s_autoW+', AQ: '+s_autoQ+']');
+	if(o_autoSkipOpts.strictMode == false) s_strictMode = '0';
+	if(o_autoSkipOpts.strictMode == true) s_strictMode = '1';
+	API.sendChat('/me [foxbot] Systems are online and functional! [AS: '+s_autoS+' (S: '+s_strictMode+'), AW: '+s_autoW+', AQ: '+s_autoQ+']');
 }
 function f_reload(data) {
 		API.sendChat('/me [foxbot] System Reloading!');
@@ -186,6 +188,16 @@ function f_reload(data) {
 
 function f_userIntentLeave(data) {
 	API.sendChat('[foxbot] @'+data.from+': we hope you enjoyed your stay in the Super Awesome Electronic Room, please visit us again soon!');
+}
+
+function f_toggleStrictMode(data) {
+	if(o_autoSkipOpts.strictMode == false) {
+		API.sendChat('/me [foxbot] Strict mode now enabled');
+		o_autoSkipOpts.strictMode = true;
+	} else {
+		API.sendChat('/me [foxbot] Strict mode now disabled');
+		o_autoSkipOpts.strictMode = false;
+	}
 }
  
 var o_chatcmds = {
@@ -235,6 +247,10 @@ var o_chatcmds = {
         },
         '/autoskip': {
                 f: f_toggleAutoskip,
+                needsPerm: true
+        },
+		'/autoskip_strict': {
+                f: f_toggleStrictMode,
                 needsPerm: true
         },
 		'/joke': {
