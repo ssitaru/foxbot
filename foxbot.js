@@ -7,7 +7,13 @@
 var b_autoSkip = true;
 var b_autoWoot = true;
 var b_autoQueue = true;
-var a_jokes = Array(); 
+var a_jokes = Array();
+var o_autoSkipOpts = {
+	strictMode: false,
+	maxSongLength: 10, // in mins
+	i_timerID: null,
+	f_autoSkip: f_long
+};
 
 function f_foxbotInit() { // init foxbot, gets called at the very end
 	window.setTimeout(function(){API.sendChat('/me [foxbot] System Online!');}, 5000); 
@@ -298,12 +304,20 @@ function f_djAdvance(obj)
         a_timeRem = s_timeRem.toString().split(':');
         i_timeRem = (parseInt(a_timeRem[0])*60) + parseInt(a_timeRem[1]);
 		
-		// auto-skip track if more than 10mins & enabled
-        if((i_timeRem > 10*60) && b_autoSkip) {
+		// auto-skip code:
+		// clear previous timeout
+		window.clearTimeout(o_autoSkipOpts.i_timerID);
+		// if autoskip enabled & strictMode on
+		if(b_autoSkip && o_autoSkipOpts.strictMode) {
+			if(i_timeRem > (o_autoSkipOpts.maxSongLength)*60) {
                 var o_djs = API.getDJs();
 				API.sendChat('@'+o_djs[0].username+' Sorry, your song is over the allowed time limit.');
                 f_long(null);
-        }
+			}
+		} else if(b_autoSkip && (i_timeRem > (o_autoSkipOpts.maxSongLength)*60)) {
+			// normal mode (and if track length more than <maxSongLength>): set a timer for <maxSongLength> mins to skip the track
+			o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.i_timerID, (o_autoSkipOpts.maxSongLength)*60);
+		}
 		
 		// auto-woot the track if enabled
 		if(b_autoWoot) {
