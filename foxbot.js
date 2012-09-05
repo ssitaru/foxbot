@@ -17,7 +17,7 @@ var o_autoSkipOpts = {
 var o_tmp = Object();
 
 function f_foxbotInit() { // init foxbot, gets called at the very end
-	window.setTimeout(function(){API.sendChat('/me [foxbot] System Online!');}, 5000); 
+	window.setTimeout(function(){API.sendChat('/me System Online!');}, 5000); 
 	
 	// now all the event listeners
 	API.addEventListener(API.USER_JOIN, join);
@@ -56,21 +56,21 @@ function f_commands(data) {
 		}
 	}
 	cmds_clean = cmds.slice(0, -2);
-    //API.sendChat('/me [foxbot] Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip, /joke, /test, /reload');
-	API.sendChat('/me [foxbot] Commands currently supported are: '+cmds_clean);
+    //API.sendChat('/me Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip, /joke, /test, /reload');
+	API.sendChat('/me Commands currently supported are: '+cmds_clean);
 }
 
 function f_skip(data) {
-    API.sendChat('/me [foxbot] Current DJ has been skipped by operator!');
+    API.sendChat('/me Current DJ has been skipped by operator!');
     window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
 	window.setTimeout(function(){API.sendChat("/me [foxbot] Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
 }
 function f_long() {
-	API.sendChat('[foxbot] @'+o_tmp.username+' Sorry, your song is over the allowed time limit.');
+	API.sendChat('@'+o_tmp.username+' Sorry, your song is over the allowed time limit.');
     window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
 }
 function f_lock(data) {
-        API.sendChat('/me [foxbot] Dj Booth has been locked by operator!');
+        API.sendChat('/me Dj Booth has been locked by operator!');
         rpcGW.execute('room.update_options', null, Models.room.data.id,
               {
                 name: Models.room.data.name,
@@ -82,7 +82,7 @@ function f_lock(data) {
               });
 }
 function f_unlock(data) {
-        API.sendChat('/me [foxbot] Dj Booth has been unlocked by operator!');
+        API.sendChat('/me Dj Booth has been unlocked by operator!');
         rpcGW.execute('room.update_options', null, Models.room.data.id,
               {
                 name: Models.room.data.name,
@@ -94,7 +94,7 @@ function f_unlock(data) {
               });
 } 
 function f_retry(data) {
-		API.sendChat('/me [foxbot] Please choose a different song and try again.');
+		API.sendChat('/me Please choose a different song and try again.');
 		window.setTimeout(function(){ rpcGW.execute('room.update_options', null, Models.room.data.id,
               {
                 name: Models.room.data.name,
@@ -116,52 +116,52 @@ function f_retry(data) {
               });}, 5000);
 }		
 function f_cookie(data) {
-        API.sendChat('[foxbot] @'+data.from+': here you go!');
+        API.sendChat('@'+data.from+': here you go!');
         window.setTimeout(function(){API.sendChat('/me [foxbot] tosses a cookie at '+data.from);}, 500);
 }
 function f_rape(data) {
-        API.sendChat('/me [foxbot] slays @'+data.from+'!');
+        API.sendChat('/me slays @'+data.from+'!');
 }
 
 function f_hug(data) {
-        API.sendChat('/me [foxbot] hugs @'+data.from+'!');
+        API.sendChat('/me hugs @'+data.from+'!');
 }
 function f_rule(data) {
-        API.sendChat('[foxbot] @'+data.from+' Rules: Play whatever music you like, as long as it has electronic elements. Max Song Length: 10 Mins No spam please and dont overplay a song!');
+        API.sendChat('@'+data.from+' Rules: Play whatever music you like, as long as it has electronic elements. Max Song Length: 10 Mins No spam please and dont overplay a song!');
 }
 function f_about(data) {
-		API.sendChat('/me [foxbot] Hello, I am foxbot. I am here to help the moderators and to entertain the crowd. For a list of my commands please type /commands. Copyright 1NT and FoxtrotFire .(contact one of us for suggestions)');
+		API.sendChat('/me Hello, I am foxbot. I am here to help the moderators and to entertain the crowd. For a list of my commands please type /commands. Copyright 1NT and FoxtrotFire .(contact one of us for suggestions)');
 }
 function f_brb(data) {
-		API.sendChat('[foxbot] @'+data.from+' Come back soon!');
+		API.sendChat('@'+data.from+' Come back soon!');
 }
 
 function f_toggleAutoskip(data) {
 	if(b_autoSkip == false) {
-		API.sendChat('/me [foxbot] Autoskip now enabled');
+		API.sendChat('/me Autoskip now enabled');
 		b_autoSkip = true;
 	} else {
-		API.sendChat('/me [foxbot] Autoskip now disabled');
+		API.sendChat('/me Autoskip now disabled');
 		b_autoSkip = false;
 	}
 }
 
 function f_toggleAutowoot(data) {
 	if(b_autoWoot == false) {
-		API.sendChat('/me [foxbot] Autowoot now enabled');
+		API.sendChat('/me Autowoot now enabled');
 		b_autoWoot = true;
 	} else {
-		API.sendChat('/me [foxbot] Autowoot now disabled');
+		API.sendChat('/me  Autowoot now disabled');
 		b_autoWoot = false;
 	}
 }
 
 function f_toggleAutoqueue(data) {
 	if(b_autoQueue == false) {
-		API.sendChat('/me [foxbot] Autoqueue now enabled');
+		API.sendChat('/me Autoqueue now enabled');
 		b_autoQueue = true;
 	} else {
-		API.sendChat('/me [foxbot] Autoqueue now disabled');
+		API.sendChat('/me Autoqueue now disabled');
 		b_autoQueue = false;
 	}
 }
@@ -169,7 +169,7 @@ function f_toggleAutoqueue(data) {
 function f_joke(data) {
         n = Math.floor(Math.random()*a_jokes.length);
        
-        API.sendChat('/me [foxbot] Joke #'+n+': '+a_jokes[n]);
+        API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
 	if(b_autoSkip == false) s_autoS = '0';
@@ -180,23 +180,23 @@ function f_test(data) {
 	if(b_autoQueue == true) s_autoQ = '1';
 	if(o_autoSkipOpts.strictMode == false) s_strictMode = '0';
 	if(o_autoSkipOpts.strictMode == true) s_strictMode = '1';
-	API.sendChat('/me [foxbot] Systems are online and functional! [AS: '+s_autoS+' (S: '+s_strictMode+'), AW: '+s_autoW+', AQ: '+s_autoQ+']');
+	API.sendChat('/me Systems are online and functional! [AS: '+s_autoS+' (S: '+s_strictMode+'), AW: '+s_autoW+', AQ: '+s_autoQ+']');
 }
 function f_reload(data) {
-		API.sendChat('/me [foxbot] System Reloading!');
+		API.sendChat('/me System Reloading!');
 		window.setTimeout(function(){location.reload();}, 1000);
 }
 
 function f_userIntentLeave(data) {
-	API.sendChat('[foxbot] @'+data.from+': we hope you enjoyed your stay in the Super Awesome Electronic Room, please visit us again soon!');
+	API.sendChat('@'+data.from+': we hope you enjoyed your stay in the Super Awesome Electronic Room, please visit us again soon!');
 }
 
 function f_toggleStrictMode(data) {
 	if(o_autoSkipOpts.strictMode == false) {
-		API.sendChat('/me [foxbot] Strict mode now enabled');
+		API.sendChat('/me Strict mode now enabled');
 		o_autoSkipOpts.strictMode = true;
 	} else {
-		API.sendChat('/me [foxbot] Strict mode now disabled');
+		API.sendChat('/me Strict mode now disabled');
 		o_autoSkipOpts.strictMode = false;
 	}
 }
