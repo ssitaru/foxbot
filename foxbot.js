@@ -66,7 +66,7 @@ function f_skip(data) {
 	window.setTimeout(function(){API.sendChat("/me [foxbot] Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
 }
 function f_long() {
-	API.sendChat('@'+o_tmp.username+' Sorry, your song is over the allowed time limit.');
+	API.sendChat('[foxbot] @'+o_tmp.username+' Sorry, your song is over the allowed time limit.');
     window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
 }
 function f_lock(data) {
