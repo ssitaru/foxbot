@@ -324,18 +324,18 @@ function f_djAdvance(obj)
 		// auto-skip code:
 		// clear previous timeout
 		window.clearTimeout(o_autoSkipOpts.i_timerID);
-		// if autoskip enabled & strictMode on
-		if(b_autoSkip && o_autoSkipOpts.strictMode) {
-			if(i_timeRem > (o_autoSkipOpts.maxSongLength)*60) {
-                var o_djs = API.getDJs();
+		// if autoskip enabled & song over time limit
+		if(b_autoSkip && (i_timeRem > (o_autoSkipOpts.maxSongLength)*60)){
+			if(o_autoSkipOpts.strictMode) { // strict mode, skip song immediately
+				var o_djs = API.getDJs();
 				o_tmp.username = o_djs[0].username;
-                f_long();
+				f_long();
+			} else {
+				// normal mode (and if track length more than <maxSongLength>): set a timer for <maxSongLength> mins to skip the track
+				var o_djs = API.getDJs();
+				o_tmp.username = o_djs[0].username;
+				o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.f_autoSkip, (o_autoSkipOpts.maxSongLength)*60);
 			}
-		} else if(b_autoSkip && (i_timeRem > (o_autoSkipOpts.maxSongLength)*60)) {
-			// normal mode (and if track length more than <maxSongLength>): set a timer for <maxSongLength> mins to skip the track
-			var o_djs = API.getDJs();
-			o_tmp.username = o_djs[0].username;
-			o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.f_autoSkip, (o_autoSkipOpts.maxSongLength)*60);
 		}
 		
 		// auto-woot the track if enabled
