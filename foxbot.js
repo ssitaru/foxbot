@@ -10,7 +10,7 @@ var b_autoQueue = true;
 var a_jokes = Array();
 var o_autoSkipOpts = {
 	strictMode: false,
-	maxSongLength: 2, // in mins
+	maxSongLength: 10, // in mins
 	i_timerID: null,
 	f_autoSkip: f_long
 };
