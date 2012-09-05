@@ -334,7 +334,7 @@ function f_djAdvance(obj)
 				// normal mode (and if track length more than <maxSongLength>): set a timer for <maxSongLength> mins to skip the track
 				var o_djs = API.getDJs();
 				o_tmp.username = o_djs[0].username;
-				o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.f_autoSkip, (o_autoSkipOpts.maxSongLength)*60);
+				o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.f_autoSkip, (o_autoSkipOpts.maxSongLength)*60*1000);
 			}
 		}
 		
