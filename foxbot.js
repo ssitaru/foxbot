@@ -14,6 +14,7 @@ var o_autoSkipOpts = {
 	i_timerID: null,
 	f_autoSkip: f_long
 };
+var o_tmp = Object();
 
 function f_foxbotInit() { // init foxbot, gets called at the very end
 	window.setTimeout(function(){API.sendChat('/me [foxbot] System Online!');}, 5000); 
@@ -65,7 +66,7 @@ function f_skip(data) {
 	window.setTimeout(function(){API.sendChat("/me [foxbot] Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
 }
 function f_long() {
-	API.sendChat('@'+username+' Sorry, your song is over the allowed time limit.');
+	API.sendChat('@'+o_tmp.username+' Sorry, your song is over the allowed time limit.');
     window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
 }
 function f_lock(data) {
@@ -327,13 +328,13 @@ function f_djAdvance(obj)
 		if(b_autoSkip && o_autoSkipOpts.strictMode) {
 			if(i_timeRem > (o_autoSkipOpts.maxSongLength)*60) {
                 var o_djs = API.getDJs();
-				var username = o_djs[0].username;
+				o_tmp.username = o_djs[0].username;
                 f_long();
 			}
 		} else if(b_autoSkip && (i_timeRem > (o_autoSkipOpts.maxSongLength)*60)) {
 			// normal mode (and if track length more than <maxSongLength>): set a timer for <maxSongLength> mins to skip the track
 			var o_djs = API.getDJs();
-			var username = o_djs[0].username;
+			o_tmp.username = o_djs[0].username;
 			o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.f_autoSkip, (o_autoSkipOpts.maxSongLength)*60);
 		}
 		
