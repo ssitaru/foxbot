@@ -333,7 +333,7 @@ function f_djAdvance(obj)
 		} else if(b_autoSkip && (i_timeRem > (o_autoSkipOpts.maxSongLength)*60)) {
 			// normal mode (and if track length more than <maxSongLength>): set a timer for <maxSongLength> mins to skip the track
 			var username = o_djs[0].username;
-			o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.i_timerID, (o_autoSkipOpts.maxSongLength)*60);
+			o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.f_autoSkip, (o_autoSkipOpts.maxSongLength)*60);
 		}
 		
 		// auto-woot the track if enabled
