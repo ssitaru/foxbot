@@ -250,7 +250,7 @@ var o_chatcmds = {
                 f: f_toggleAutoskip,
                 needsPerm: true
         },
-		'/autoskip_strict': {
+		'/autostrict': {
                 f: f_toggleStrictMode,
                 needsPerm: true
         },
