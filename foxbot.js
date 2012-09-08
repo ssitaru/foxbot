@@ -51,12 +51,12 @@ function f_commands(data) {
 	var cmds = '';
 	for(var cmd in o_chatcmds)
 	{
-		if((cmd != 'brb') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'got2go')) {
+		if((cmd != 'brb') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'gtg') && (cmd != 'got2go')) {
 			cmds = cmds + cmd + ', ';
 		}
 	}
 	cmds_clean = cmds.slice(0, -2);
-    //API.sendChat('/me Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip, /joke, /test, /reload');
+    //API.sendChat('/me Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip, /joke, /test, /reload, /dance');
 	API.sendChat('/me Commands currently supported are: '+cmds_clean);
 }
 
@@ -125,6 +125,9 @@ function f_rape(data) {
 
 function f_hug(data) {
         API.sendChat('/me hugs @'+data.from+'!');
+}
+function f_dance(data) {
+        API.sendChat('/me Is on Fire!');
 }
 function f_rule(data) {
         API.sendChat('@'+data.from+' Rules: Play whatever music you like, as long as it has electronic elements. Max Song Length: 10 Mins No spam please and dont overplay a song!');
@@ -278,12 +281,20 @@ var o_chatcmds = {
                 f: f_userIntentLeave,
                 needsPerm: false
         },
+        	'gtg': {
+                f: f_userIntentLeave,
+                needsPerm: false
+        },
 		'gotta go': {
                 f: f_userIntentLeave,
                 needsPerm: false
         },
 		'got2go': {
                 f: f_userIntentLeave,
+                needsPerm: false
+        },
+        	'/dance': {
+                f: f_dance,
                 needsPerm: false
         }
 };
