@@ -1,4 +1,4 @@
-﻿/*
+/*
  * foxbot.js - a bot for plug.dj
  * 
  * Copyright (C) 2012 by 1NT and FoxtrotFire
@@ -33,7 +33,7 @@ function f_foxbotInit() { // init foxbot, gets called at the very end
 
 function join(user)
 {
-    API.sendChat("@" + user.username + " Enjoy your stay in the Super Awesome Electronic Room! Use /commands to get a list of my commands. Please obey the rules.");
+    API.sendChat("@" + user.username + " Enjoy your stay in the H4RDSTYLE Heaven! Use /commands to get a list of my commands. Please obey the rules.");
 	//window.setTimeout(function(){f_rule({from: user.username});}, 1000);
 }
 
@@ -130,7 +130,7 @@ function f_dance(data) {
         API.sendChat('/me Is on Fire!');
 }
 function f_rule(data) {
-        API.sendChat('@'+data.from+' Rules: Play whatever music you like, as long as it has electronic elements. Max Song Length: 10 Mins No spam please and dont overplay a song!');
+        API.sendChat('@'+data.from+' Rules: Only play hardstyle, hardcore or a variation thereof. Max Song Length: 10 Mins No spam please and dont overplay a song!');
 }
 function f_about(data) {
 		API.sendChat('/me Hello, I am foxbot. I am here to help the moderators and to entertain the crowd. For a list of my commands please type /commands. Copyright 1NT and FoxtrotFire .(contact one of us for suggestions)');
@@ -191,7 +191,7 @@ function f_reload(data) {
 }
 
 function f_userIntentLeave(data) {
-	API.sendChat('@'+data.from+': we hope you enjoyed your stay in the Super Awesome Electronic Room, please visit us again soon!');
+	API.sendChat('@'+data.from+': we hope you enjoyed your stay in the H4RDSTYLE Heaven, please visit us again soon!');
 }
 
 function f_toggleStrictMode(data) {
