@@ -8,12 +8,12 @@
 /*global $, API, Room, Playback, Models*/
 
 var o_settings = {
-    autoSkip: true,
+    autoSkip: false,
     autoWoot: true,
     autoQueue: true,
-    welcomeMsg: true,
-    goodbyeMsg: true,
-    rules: '[Insert Rules Here]'
+    welcomeMsg: false,
+    goodbyeMsg: false,
+    rules: 'Please Refer to Room Info for the rules.'
 };
 var a_jokes = [];
 var o_tmp = {};
