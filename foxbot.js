@@ -12,7 +12,8 @@ var o_settings = {
     autoWoot: true,
     autoQueue: true,
     welcomeMsg: true,
-    goodbyeMsg: true
+    goodbyeMsg: true,
+    rules: '[Insert Rules Here]'
 };
 var a_jokes = [];
 var o_tmp = {};
@@ -142,7 +143,7 @@ function f_dance(data) {
         API.sendChat('/me Is on Fire!');
 }
 function f_rule(data) {
-        API.sendChat('@'+data.from+' Rules: Only play hardstyle, hardcore or a variation thereof. Max Song Length: 10 Mins No spam please and dont overplay a song!');
+        API.sendChat('@'+data.from+' Rules: '+o_settings.rules);
 }
 function f_about(data) {
 		API.sendChat('/me Hello, I am foxbot. I am here to help the moderators and to entertain the crowd. For a list of my commands please type /commands. Copyright 1NT and FoxtrotFire .(contact one of us for suggestions)');
@@ -180,8 +181,16 @@ function f_toggleStrictMode(data) {
 }
 
 function f_set(data) {
-    args = f_getArgs(data.message);
-    s = 'o_settings.'+args[0]+' = '+args[1]+';';
+    var args = f_getArgs(data.message);
+    var setValue = args[1];
+    var s;
+    if((setValue == 'true') || (setValue == 'false'))
+    {
+        s = 'o_settings.'+args[0]+' = '+setValue+';';
+    } else { // we're dealing with strings
+        setValue = setValue.replace("'", "\\'");
+        s = 'o_settings.'+args[0]+' = \''+setValue+'\';';
+    }
     eval(s);
     API.sendChat('/me '+args[0]+' now '+eval('o_settings.'+args[0]));
 }
