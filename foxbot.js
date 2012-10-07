@@ -337,7 +337,7 @@ function f_getArgs(s) {
         s_real += a_s[i];
     }
     
-    a_opts = a_s[1].split(';');
+    a_opts = s_real.split(';');
     
     return a_opts;
     
