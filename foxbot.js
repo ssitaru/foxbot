@@ -283,7 +283,9 @@ function f_checkChat(data) {
                 } else {
                     API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
                 }
-            }  
+            } else {
+                o.f(data);
+            }
         }
     }
 }
