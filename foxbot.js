@@ -309,7 +309,7 @@ function f_msgMatches(s) {
 }
     
 function f_getArgs(s) {
-    a_s = s.split(' ', 1);
+    a_s = s.split(' ', 2);
     a_opts = a_s[1].split(';');
     
     return a_opts;
