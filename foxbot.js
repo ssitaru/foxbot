@@ -158,7 +158,7 @@ function f_joke(data) {
     API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
-	s = '[AS:  (S: ), AW: '+o_settings.autoWoot+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
+	s = '[WM '+o_settings.welcomeMsg+', GM'+o_settings.goodbyeMsg+', AS '+o_settings.autoSkip+', AW: '+o_settings.autoWoot+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
 	API.sendChat('/me Systems are online and functional! '+s);
 }
 function f_reload(data) {
