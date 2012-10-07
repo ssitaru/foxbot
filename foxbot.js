@@ -181,7 +181,9 @@ function f_toggleStrictMode(data) {
 
 function f_set(data) {
     args = f_getArgs(data.message);
-    eval
+    s = 'o_settings.'+args[0]+' = '+args[1]+';';
+    eval(s);
+    API.sendChat('/me '+args[0]+' now '+eval('o_settings.'+args[0]));
 }
 
 var o_chatcmds = {
