@@ -33,7 +33,7 @@ function f_foxbotInit() { // init foxbot, gets called at the very end
 
 function join(user)
 {
-    API.sendChat("@" + user.username + " Enjoy your stay in the H4RDSTYLE Heaven! Use /commands to get a list of my commands. Please obey the rules.");
+    API.sendChat("@" + user.username + " Enjoy your stay in the " + Models.room.data.name  + "! Use /commands to get a list of my commands. Please obey the rules.");
 	//window.setTimeout(function(){f_rule({from: user.username});}, 1000);
 }
 
