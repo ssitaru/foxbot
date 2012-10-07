@@ -181,8 +181,7 @@ function f_toggleStrictMode(data) {
 
 function f_set(data) {
     args = f_getArgs(data.message);
-    API.sendChat('got arg[0]: '+args[0]);
-    API.sendChat('got arg[1]: '+args[1]);
+    eval
 }
 
 var o_chatcmds = {
@@ -296,13 +295,15 @@ function f_msgMatches(s) {
         if(!b_hasModRights) {
             
             if(cmd[0] == '/') { // skip non-slash commands, as they might interfere with other bots
-                cmd = 'fbot' + cmd;
+                cmdNew = 'fbot' + cmd;
             } else {
                 continue;
             }
+        } else {
+            cmdNew = cmd;
         }
         
-        if(s.toString().indexOf(cmd) != -1) {
+        if(s.toString().indexOf(cmdNew) != -1) {
             return o_chatcmds[cmd];
         }
     }
