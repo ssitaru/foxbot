@@ -334,7 +334,7 @@ function f_getArgs(s) {
     var a_s = s.split(' '); // [0] = <command>; [1-n] args
     var s_real = '';
     for(var i = 1; i < a_s.length; i++) {
-        s_real += a_s[i];
+        s_real += ' ' + a_s[i];
     }
     
     a_opts = s_real.split(';');
