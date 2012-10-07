@@ -230,10 +230,6 @@ var o_chatcmds = {
             f: f_brb,
             needsPerm: false
         },
-        '/autoskip': {
-            f: f_toggleAutoskip,
-            needsPerm: true
-        },
 		'/autostrict': {
             f: f_toggleStrictMode,
             needsPerm: true
@@ -248,14 +244,6 @@ var o_chatcmds = {
         },
 		'/reload': {
             f: f_reload,
-            needsPerm: true
-        },
-		'/autowoot': {
-            f: f_toggleAutowoot,
-            needsPerm: true
-        },
-		'/autoqueue': {
-            f: f_toggleAutoqueue,
             needsPerm: true
         },
 		'g2g': {
