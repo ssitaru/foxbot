@@ -331,7 +331,12 @@ function f_msgMatches(s) {
 }
     
 function f_getArgs(s) {
-    a_s = s.split(' ', 2);
+    var a_s = s.split(' '); // [0] = <command>; [1-n] args
+    var s_real = '';
+    for(var i = 1; i < a_s.length; i++) {
+        s_real += a_s[i];
+    }
+    
     a_opts = a_s[1].split(';');
     
     return a_opts;
