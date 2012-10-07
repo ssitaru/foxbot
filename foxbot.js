@@ -297,6 +297,7 @@ function f_checkChat(data) {
                 }
             }  
         }
+    }
 }
 
 function f_msgMatches(s) {
