@@ -331,7 +331,7 @@ function f_djAdvance(obj)
 		// clear previous timeout
 		window.clearTimeout(o_autoSkipOpts.i_timerID);
 		// if autoskip enabled & song over time limit
-		if(o_settings.b_autoSkip && (i_timeRem > (o_autoSkipOpts.maxSongLength)*60)){
+		if(o_settings.autoSkip && (i_timeRem > (o_autoSkipOpts.maxSongLength)*60)){
 			if(o_autoSkipOpts.strictMode) { // strict mode, skip song immediately
 				var o_djs = API.getDJs();
 				o_tmp.username = o_djs[0].username;
@@ -345,13 +345,13 @@ function f_djAdvance(obj)
 		}
 		
 		// auto-woot the track if enabled
-		if(b_autoWoot) {
+		if(o_settings.autoWoot) {
 			jQuery("#button-vote-positive").click();
 		}
 		
 		
 		// autoqueue if enabled
-		if(b_autoQueue) {
+		if(o_settings.b_autoQueue) {
 			if(jQuery('#button-dj-waitlist-join').css('display') != 'none') {
 				jQuery('#button-dj-waitlist-join').click();
 			}
