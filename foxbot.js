@@ -193,19 +193,23 @@ var o_chatcmds = {
         },
         '/skip': {
             f: f_skip,
-            needsPerm: true
+            needsPerm: true,
+            needsLocalPerm: true
         },
 		'/lock': {
             f: f_lock,
-            needsPerm: true
+            needsPerm: true,
+            needsLocalPerm: true
         },
 		'/unlock': {
             f: f_unlock,
-            needsPerm: true
+            needsPerm: true,
+            needsLocalPerm: true
         },
 		'/retry': {
             f: f_retry,
-            needsPerm: true
+            needsPerm: true,
+            needsLocalPerm: true
         },
         '/cookie': {
             f: f_cookie,
@@ -279,12 +283,16 @@ function f_checkChat(data) {
         if(o != false) {
             if(o.needsPerm)
             {
+                if(o.needsLocalPerm == true) {
+                    API.sendChat('@'+data.from+': Need moderator rights, sorry.');
+                    return;
+                }
                 if(API.getUser(data.fromID).moderator || API.getUser(data.fromID).owner) {
                     o.f(data);
                 } else {
                     API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
                 }
-            } else {
+            } else if(!o.needsPerm) {
                 o.f(data);
             }
         }
