@@ -302,9 +302,9 @@ function f_checkChat(data) {
                 if(API.getUser(data.fromID).moderator || API.getUser(data.fromID).owner) {
                     o.f(data);
                 }
-            } else if(!o.needsPerm) {
-                o.f(data);
-            }
+            } //else if(!o.needsPerm) {
+               // o.f(data);
+            
         }
     }
 }
