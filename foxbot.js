@@ -308,7 +308,7 @@ function f_checkChat(data) {
         }
       }
    }
-}
+
 }
 function f_msgMatches(s) {
     for(var cmd in o_chatcmds)
