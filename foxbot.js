@@ -293,7 +293,7 @@ function f_checkChat(data) {
             if(data.fromID = API.getSelf().id) {
             	o.f(data);
             
-           else if(o.needsPerm)
+            if(o.needsPerm)
             {
                 if(o.needsLocalPerm == true) {
                     API.sendChat('@'+data.from+': Need moderator rights, sorry.');
@@ -301,8 +301,6 @@ function f_checkChat(data) {
                 }
                 if(API.getUser(data.fromID).moderator || API.getUser(data.fromID).owner) {
                     o.f(data);
-                } else {
-                    API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
                 }
             } else if(!o.needsPerm) {
                 o.f(data);
