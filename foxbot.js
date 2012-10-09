@@ -76,7 +76,7 @@ function f_commands(data) {
 function f_skip(data) {
     API.sendChat('/me Current DJ has been skipped by operator!');
     window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
-	window.setTimeout(function(){API.sendChat("/me [foxbot] Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
+	window.setTimeout(function(){API.sendChat("/me Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
 }
 function f_long() {
 	API.sendChat('@'+o_tmp.username+' Sorry, your song is over the allowed time limit.');
@@ -130,7 +130,7 @@ function f_retry(data) {
 }		
 function f_cookie(data) {
         API.sendChat('@'+data.from+': here you go!');
-        window.setTimeout(function(){API.sendChat('/me [foxbot] tosses a cookie at '+data.from);}, 500);
+        window.setTimeout(function(){API.sendChat('/me tosses a cookie at '+data.from);}, 500);
 }
 function f_rape(data) {
         API.sendChat('/me slays @'+data.from+'!');
