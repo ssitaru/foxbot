@@ -46,7 +46,7 @@ function f_foxbotInit() { // init foxbot, gets called at the very end
 
 function join(user)
 {
-    API.sendChat("@" + user.username + " Enjoy your stay in the " + Models.room.data.name  + "!");
+    API.sendChat("@" + user.username + " Enjoy your stay in the " + Models.room.data.name  + " room!");
 	//window.setTimeout(function(){f_rule({from: user.username});}, 1000);
 }
 
@@ -287,9 +287,12 @@ var o_chatcmds = {
 };
 
 function f_checkChat(data) {
-    if((data.type == "message")) {//&& (data.fromID != API.getSelf().id)) { // dont parse our own messages
+    if(data.type == "message") {//&& (data.fromID != API.getSelf().id)) { // dont parse our own messages
         o = f_msgMatches(data.message);
         if(o != false) {
+            if(data.fromID = API.getSelf().id) {
+            	o.f(data);
+            }
             if(o.needsPerm)
             {
                 if(o.needsLocalPerm == true) {
