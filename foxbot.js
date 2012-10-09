@@ -287,7 +287,7 @@ var o_chatcmds = {
 };
 
 function f_checkChat(data) {
-    if((data.type == "message") //&& (data.fromID != API.getSelf().id)) { // dont parse our own messages
+    if((data.type == "message") {//&& (data.fromID != API.getSelf().id)) { // dont parse our own messages
         o = f_msgMatches(data.message);
         if(o != false) {
             if(o.needsPerm)
