@@ -32,7 +32,7 @@ function f_foxbotInit() { // init foxbot, gets called at the very end
     
 	// now all the event listeners
 	API.addEventListener(API.USER_JOIN, join);
-	API.addEventListener(API.USER_LEAVE, leave);
+	//API.addEventListener(API.USER_LEAVE, leave);
 	API.addEventListener("curateUpdate", f_curate);
 	API.addEventListener(API.CHAT, f_checkChat);
 	API.addEventListener(API.DJ_ADVANCE, f_djAdvance);
