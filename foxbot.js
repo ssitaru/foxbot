@@ -50,10 +50,10 @@ function join(user)
 	//window.setTimeout(function(){f_rule({from: user.username});}, 1000);
 }
 
-function leave(user)
-{
-    API.sendChat("/me " + user.username + " left the room. =( ");
-}
+//function leave(user)
+//{
+//    API.sendChat("/me " + user.username + " left the room. =( ");
+//}
 	
 function f_curate(data)
 { 
