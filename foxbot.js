@@ -293,7 +293,7 @@ function f_checkChat(data) {
                                 // finally, perm check
                                 if(o_chatcmds[s].needsPerm)
                                 {
-                                        if(API.getUser(data.fromID).moderator || API.getUser(data.fromID).owner) {
+                                        if(API.getUser(data.fromID).bouncer || API.getUser(data.fromID).owner) {
                                                 o_chatcmds[s].f(data);
                                         } else {
                                                 API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
