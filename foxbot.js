@@ -151,6 +151,10 @@ API.sendChat('/me Hello, I am foxbot. I am here to help the moderators and to en
 function f_brb(data) {
 API.sendChat('@'+data.from+' Come back soon!');
 }
+}
+function f_drink(data) {
+API.sendChat('Here is your strong alcoholic beverage @'+data.from+' !');
+}
 
 function f_joke(data) {
     n = Math.floor(Math.random()*a_jokes.length);
@@ -244,6 +248,10 @@ var o_chatcmds = {
             f: f_brb,
             needsPerm: false
         },
+'/drink': {
+            f: f_drink,
+            needsPerm: false
+        },        
 '/autostrict': {
             f: f_toggleStrictMode,
             needsPerm: true
@@ -293,7 +301,7 @@ function f_checkChat(data) {
                                 // finally, perm check
                                 if(o_chatcmds[s].needsPerm)
                                 {
-                                        if(API.getUser(data.fromID).bouncer || API.getUser(data.fromID).owner) {
+                                        if(API.getUser(data.fromID).moderator || API.getUser(data.fromID).bouncer || API.getUser(data.fromID).owner) {
                                                 o_chatcmds[s].f(data);
                                         } else {
                                                 API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
