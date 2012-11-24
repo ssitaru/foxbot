@@ -151,7 +151,6 @@ API.sendChat('/me Hello, I am foxbot. I am here to help the moderators and to en
 function f_brb(data) {
 API.sendChat('@'+data.from+' Come back soon!');
 }
-}
 function f_drink(data) {
 API.sendChat('Here is your strong alcoholic beverage @'+data.from+' !');
 }
