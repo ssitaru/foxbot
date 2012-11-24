@@ -57,7 +57,7 @@ function join(user)
 
 function f_curate(data)
 {
-API.sendChat("/me " + data.user.username + " curated this track.");
+API.sendChat("/me " + data.user.username + " loves this track!");
 }
     
 function f_commands(data) {
