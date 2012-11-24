@@ -1,8 +1,8 @@
 /*
- * foxbot.js - a bot for plug.dj
- * 
- * Copyright (C) 2012 by 1NT and FoxtrotFire
- */
+* foxbot.js - a bot for plug.dj
+*
+* Copyright (C) 2012 by 1NT and FoxtrotFire
+*/
 
 /*jslint devel:true, sloppy:true, browser:true, white:true*/
 /*global $, API, Room, Playback, Models*/
@@ -11,7 +11,7 @@ var o_settings = {
     autoSkip: false,
     autoWoot: true,
     autoQueue: true,
-    welcomeMsg: false,
+    welcomeMsg: true,
     goodbyeMsg: false,
     rules: 'Please Refer to Room Info for the rules.'
 };
@@ -19,67 +19,67 @@ var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = true;
 var o_autoSkipOpts = {
-	strictMode: false,
-	maxSongLength: 10, // in mins
-	i_timerID: null,
-	f_autoSkip: f_long
+strictMode: false,
+maxSongLength: 10, // in mins
+i_timerID: null,
+f_autoSkip: f_long
 };
 
 function f_foxbotInit() { // init foxbot, gets called at the very end
-	window.setTimeout(function(){API.sendChat('/me System Online!');}, 5000); 
-	
+window.setTimeout(function(){API.sendChat('/me System Online!');}, 5000);
+
     b_hasModRights = API.getSelf().moderator;
     
-	// now all the event listeners
-	API.addEventListener(API.USER_JOIN, join);
-	//API.addEventListener(API.USER_LEAVE, leave);
-	API.addEventListener("curateUpdate", f_curate);
-	API.addEventListener(API.CHAT, f_checkChat);
-	API.addEventListener(API.DJ_ADVANCE, f_djAdvance);
+// now all the event listeners
+API.addEventListener(API.USER_JOIN, join);
+//API.addEventListener(API.USER_LEAVE, leave);
+API.addEventListener("curateUpdate", f_curate);
+API.addEventListener(API.CHAT, f_checkChat);
+API.addEventListener(API.DJ_ADVANCE, f_djAdvance);
     
     
-	
-	// mute the player
-	Playback.setVolume(0);
+
+// mute the player
+Playback.setVolume(0);
 }
 
 
 function join(user)
 {
-    API.sendChat("@" + user.username + " Enjoy your stay in the " + Models.room.data.name  + " room!");
-	//window.setTimeout(function(){f_rule({from: user.username});}, 1000);
+    API.sendChat("@" + user.username + " Enjoy your stay in the " + Models.room.data.name + "! Use /commands to get a list of my commands.");
+//window.setTimeout(function(){f_rule({from: user.username});}, 1000);
 }
 
 //function leave(user)
 //{
 //    API.sendChat("/me " + user.username + " left the room. =( ");
 //}
-	
+
 function f_curate(data)
-{ 
-	API.sendChat("/me " + data.user.username + " loves this track.");
+{
+API.sendChat("/me " + data.user.username + " curated this track.");
 }
     
 function f_commands(data) {
-	var cmds = '';
-	for(var cmd in o_chatcmds)
-	{
-		if((cmd != 'brb') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'gtg') && (cmd != 'got2go')) {
-			cmds = cmds + cmd + ', ';
-		}
-	}
-	cmds_clean = cmds.slice(0, -2);
+var cmds = '';
+for(var cmd in o_chatcmds)
+{
+if((cmd != 'brb') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'gtg') && (cmd != 'got2go')) {
+cmds = cmds + cmd + ', ';
+}
+}
+cmds_clean = cmds.slice(0, -2);
     //API.sendChat('/me Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip, /joke, /test, /reload, /dance');
-	API.sendChat('/me Commands currently supported are: '+cmds_clean);
+API.sendChat('/me Commands currently supported are: '+cmds_clean);
 }
 
 function f_skip(data) {
     API.sendChat('/me Current DJ has been skipped by operator!');
     window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
-	window.setTimeout(function(){API.sendChat("/me Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
+window.setTimeout(function(){API.sendChat("/me [foxbot] Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
 }
 function f_long() {
-	API.sendChat('@'+o_tmp.username+' Sorry, your song is over the allowed time limit.');
+API.sendChat('@'+o_tmp.username+' Sorry, your song is over the allowed time limit.');
     window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
 }
 function f_lock(data) {
@@ -105,10 +105,10 @@ function f_unlock(data) {
                 maxPlays: Models.room.data.maxPlays,
                 maxDJs:5
               });
-} 
+}
 function f_retry(data) {
-		API.sendChat('/me Please choose a different song and try again.');
-		window.setTimeout(function(){ rpcGW.execute('room.update_options', null, Models.room.data.id,
+API.sendChat('/me Please choose a different song and try again.');
+window.setTimeout(function(){ rpcGW.execute('room.update_options', null, Models.room.data.id,
               {
                 name: Models.room.data.name,
                 description: Models.room.data.description,
@@ -117,8 +117,8 @@ function f_retry(data) {
                 maxPlays: Models.room.data.maxPlays,
                 maxDJs:5
               });}, 1000);
-		window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 3000);
-		window.setTimeout(function(){rpcGW.execute('room.update_options', null, Models.room.data.id,
+window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 3000);
+window.setTimeout(function(){rpcGW.execute('room.update_options', null, Models.room.data.id,
               {
                 name: Models.room.data.name,
                 description: Models.room.data.description,
@@ -127,7 +127,7 @@ function f_retry(data) {
                 maxPlays: Models.room.data.maxPlays,
                 maxDJs:5
               });}, 5000);
-}		
+}	
 function f_cookie(data) {
         API.sendChat('@'+data.from+': here you go!');
         window.setTimeout(function(){API.sendChat('/me tosses a cookie at '+data.from);}, 500);
@@ -146,10 +146,10 @@ function f_rule(data) {
         API.sendChat('@'+data.from+' Rules: '+o_settings.rules);
 }
 function f_about(data) {
-		API.sendChat('/me Hello, I am foxbot. I am here to help the moderators and to entertain the crowd. For a list of my commands please type /commands. Copyright 1NT and FoxtrotFire .(contact one of us for suggestions)');
+API.sendChat('/me Hello, I am foxbot. I am here to help the moderators and to entertain the crowd. For a list of my commands please type /commands. Copyright 1NT and FoxtrotFire .(contact one of us for suggestions)');
 }
 function f_brb(data) {
-		API.sendChat('@'+data.from+' Come back soon!');
+API.sendChat('@'+data.from+' Come back soon!');
 }
 
 function f_joke(data) {
@@ -158,8 +158,8 @@ function f_joke(data) {
     API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
-	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', AW: '+o_settings.autoWoot+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
-	API.sendChat('/me Systems are online and functional! '+s);
+s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', AW: '+o_settings.autoWoot+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
+API.sendChat('/me Systems are online and functional! '+s);
 }
 function f_reload(data) {
     API.sendChat('/me System Reloading!');
@@ -167,17 +167,17 @@ function f_reload(data) {
 }
 
 function f_userIntentLeave(data) {
-	API.sendChat('@'+data.from+': we hope you enjoyed your stay, please visit us again soon!');
+API.sendChat('@'+data.from+': we hope you enjoyed your stay, please visit us again soon!');
 }
 
 function f_toggleStrictMode(data) {
-	if(o_autoSkipOpts.strictMode == false) {
-		API.sendChat('/me Strict mode now enabled');
-		o_autoSkipOpts.strictMode = true;
-	} else {
-		API.sendChat('/me Strict mode now disabled');
-		o_autoSkipOpts.strictMode = false;
-	}
+if(o_autoSkipOpts.strictMode == false) {
+API.sendChat('/me Strict mode now enabled');
+o_autoSkipOpts.strictMode = true;
+} else {
+API.sendChat('/me Strict mode now disabled');
+o_autoSkipOpts.strictMode = false;
+}
 }
 
 function f_set(data) {
@@ -205,17 +205,17 @@ var o_chatcmds = {
             needsPerm: true,
             needsLocalPerm: true
         },
-		'/lock': {
+'/lock': {
             f: f_lock,
             needsPerm: true,
             needsLocalPerm: true
         },
-		'/unlock': {
+'/unlock': {
             f: f_unlock,
             needsPerm: true,
             needsLocalPerm: true
         },
-		'/retry': {
+'/retry': {
             f: f_retry,
             needsPerm: true,
             needsLocalPerm: true
@@ -224,43 +224,43 @@ var o_chatcmds = {
             f: f_cookie,
             needsPerm: false
         },
-		'rapes foxbot': {
+'rapes foxbot': {
             f: f_rape,
             needsPerm: false
         },
-		'hugs foxbot': {
+'hugs foxbot': {
             f: f_hug,
             needsPerm: false
         },
-		'/rules': {
+'/rules': {
             f: f_rule,
             needsPerm: false
         },
-		'/about': {
+'/about': {
             f: f_about,
             needsPerm: false
         },
-		'brb': {
+'brb': {
             f: f_brb,
             needsPerm: false
         },
-		'/autostrict': {
+'/autostrict': {
             f: f_toggleStrictMode,
             needsPerm: true
         },
-		'/joke': {
+'/joke': {
             f: f_joke,
             needsPerm: false
         },
-		'/test': {
+'/test': {
             f: f_test,
             needsPerm: true
         },
-		'/reload': {
+'/reload': {
             f: f_reload,
             needsPerm: true
         },
-		'g2g': {
+'g2g': {
             f: f_userIntentLeave,
             needsPerm: false
         },
@@ -268,11 +268,11 @@ var o_chatcmds = {
             f: f_userIntentLeave,
             needsPerm: false
         },
-		'gotta go': {
+'gotta go': {
             f: f_userIntentLeave,
             needsPerm: false
         },
-		'got2go': {
+'got2go': {
             f: f_userIntentLeave,
             needsPerm: false
         },
@@ -287,50 +287,25 @@ var o_chatcmds = {
 };
 
 function f_checkChat(data) {
-    if((data.type == "message") && (data.fromID != API.getSelf().id)) { // dont parse our own messages
-        o = f_msgMatches(data.message);
-        if(o != false) {
-           
-            if(o.needsPerm)
-            {
-                if(o.needsLocalPerm == true) {
-                    API.sendChat('@'+data.from+': Need moderator rights, sorry.');
-                    return;
+        if((data.type == "message") && (data.fromID != API.getSelf().id)) {
+                for(var s in o_chatcmds) {
+                        if(data.message.toString().indexOf(s) != -1) { // dont parse our own messages
+                                // finally, perm check
+                                if(o_chatcmds[s].needsPerm)
+                                {
+                                        if(API.getUser(data.fromID).moderator || API.getUser(data.fromID).owner) {
+                                                o_chatcmds[s].f(data);
+                                        } else {
+                                                API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
+                                        }
+                                } else {
+                                        o_chatcmds[s].f(data);
+                                }
+                               
+                        }
                 }
-                if(API.getUser(data.fromID).moderator || API.getUser(data.fromID).owner) {
-                    o.f(data);
-                } else { 
-                	API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
-
-                }
-            } else if(!o.needsPerm) {
-                o.f(data);
-            
+               
         }
-      }
-   }
-
-}
-function f_msgMatches(s) {
-    for(var cmd in o_chatcmds)
-    {
-        if(!b_hasModRights) {
-            
-            if(cmd[0] == '/') { // skip non-slash commands, as they might interfere with other bots
-                cmdNew = 'fbot' + cmd;
-            } else {
-                continue;
-            }
-        } else {
-            cmdNew = cmd;
-        }
-        
-        if(s.toString().indexOf(cmdNew) != -1) {
-            return o_chatcmds[cmd];
-        }
-    }
-    
-    return false;
 }
     
 function f_getArgs(s) {
@@ -356,36 +331,36 @@ function f_djAdvance(obj)
         }
         a_timeRem = s_timeRem.toString().split(':');
         i_timeRem = (parseInt(a_timeRem[0])*60) + parseInt(a_timeRem[1]);
-		
-		// auto-skip code:
-		// clear previous timeout
-		window.clearTimeout(o_autoSkipOpts.i_timerID);
-		// if autoskip enabled & song over time limit
-		if(o_settings.autoSkip && (i_timeRem > (o_autoSkipOpts.maxSongLength)*60)){
-			if(o_autoSkipOpts.strictMode) { // strict mode, skip song immediately
-				var o_djs = API.getDJs();
-				o_tmp.username = o_djs[0].username;
-				f_long();
-			} else {
-				// normal mode (and if track length more than <maxSongLength>): set a timer for <maxSongLength> mins to skip the track
-				var o_djs = API.getDJs();
-				o_tmp.username = o_djs[0].username;
-				o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.f_autoSkip, (o_autoSkipOpts.maxSongLength)*60*1000);
-			}
-		}
-		
-		// auto-woot the track if enabled
-		if(o_settings.autoWoot) {
-			jQuery("#button-vote-positive").click();
-		}
-		
-		
-		// autoqueue if enabled
-		if(o_settings.b_autoQueue) {
-			if(jQuery('#button-dj-waitlist-join').css('display') != 'none') {
-				jQuery('#button-dj-waitlist-join').click();
-			}
-		}
+
+// auto-skip code:
+// clear previous timeout
+window.clearTimeout(o_autoSkipOpts.i_timerID);
+// if autoskip enabled & song over time limit
+if(o_settings.autoSkip && (i_timeRem > (o_autoSkipOpts.maxSongLength)*60)){
+if(o_autoSkipOpts.strictMode) { // strict mode, skip song immediately
+var o_djs = API.getDJs();
+o_tmp.username = o_djs[0].username;
+f_long();
+} else {
+// normal mode (and if track length more than <maxSongLength>): set a timer for <maxSongLength> mins to skip the track
+var o_djs = API.getDJs();
+o_tmp.username = o_djs[0].username;
+o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.f_autoSkip, (o_autoSkipOpts.maxSongLength)*60*1000);
+}
+}
+
+// auto-woot the track if enabled
+if(o_settings.autoWoot) {
+jQuery("#button-vote-positive").click();
+}
+
+
+// autoqueue if enabled
+if(o_settings.b_autoQueue) {
+if(jQuery('#button-dj-waitlist-join').css('display') != 'none') {
+jQuery('#button-dj-waitlist-join').click();
+}
+}
 }
 
 a_jokes = ["\
@@ -467,7 +442,7 @@ A. He wanted a light snack!\
 Q. Why is the letter \"G\" scary?\
 A. It turns a host into a ghost\
 ","\
-Q. What has  4 eyes but no face?\
+Q. What has 4 eyes but no face?\
 A. Mississippi!\
 ","\
 Q. What did the spider do on the computer?\
@@ -482,7 +457,7 @@ A. Because 789!\
 Q. Why did the cookie go to the hospital?\
 A. Because it felt crummy.\
 ","\
-Q. How do you know carrots are good for your  eyes?\
+Q. How do you know carrots are good for your eyes?\
 A. Because you never see rabbits wearing glasses!\
 ","\
 Q. What do you call a pony with a sore throat?\
