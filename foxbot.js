@@ -28,7 +28,21 @@ f_autoSkip: f_long
 function f_foxbotInit() { // init foxbot, gets called at the very end
 window.setTimeout(function(){API.sendChat('/me System Online!');}, 5000);
 
-    b_hasModRights = API.getSelf().moderator;
+	var i = 0;
+	var staff = API.getStaff();
+	while (i < staff.length) {
+	
+		if (staff[i] == API.getSelf().username) {
+		
+			if (API.getSelf().permission == 2 || API.getSelf().permission == 3 || API.getSelf().permission == 4 || API.getSelf().permission == 5) {
+		
+				b_hasModRights = true;
+				
+			}
+		
+		}
+	
+	}
     
 // now all the event listeners
 API.addEventListener(API.USER_JOIN, join);
@@ -300,7 +314,7 @@ function f_checkChat(data) {
                                 // finally, perm check
                                 if(o_chatcmds[s].needsPerm)
                                 {
-                                        if(API.getUser(data.fromID).chat-bouncer || API.getUser(data.fromID).bouncer || API.getUser(data.fromID).owner) {
+                                        if(API.getUser().permission == 2 || API.getUser().permission == 3 || API.getUser().permission == 4 || API.getUser().permission == 5) {
                                                 o_chatcmds[s].f(data);
                                         } else {
                                                 API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');

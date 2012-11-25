@@ -26,6 +26,7 @@ Authors
 -------
 * Sebastian Sitaru &lt;s.sitaru@gmx.de&gt; (1NT)
 * FoxtrotFire
+* Royal_Soda (http://www.harry-j.com/)
 
 Find us in the [Super Awesome Electronic Room](http://www.plug.dj/super-awesome-edm-room-2/) (TZ: GMT+1).
 If you copy our code, please mention us and include a link to this page.
