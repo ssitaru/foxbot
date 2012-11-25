@@ -46,7 +46,7 @@ Playback.setVolume(0);
 
 function join(user)
 {
-    API.sendChat("@" + user.username + " Enjoy your stay in the " + Models.room.data.name + " room!");
+    API.sendChat("Welcome @" + user.username + " to the " + Models.room.data.name + " room!");
 //window.setTimeout(function(){f_rule({from: user.username});}, 1000);
 }
 
