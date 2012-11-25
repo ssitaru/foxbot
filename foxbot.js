@@ -13,7 +13,7 @@ var o_settings = {
     autoQueue: true,
     welcomeMsg: true,
     goodbyeMsg: false,
-    rules: 'Please Refer to Room Info for the rules.'
+    rules: 'Welcome everybody, play EDM, no Trap. 5-8 min max. Please show love and respect.'
 };
 var a_jokes = [];
 var o_tmp = {};
@@ -46,7 +46,7 @@ Playback.setVolume(0);
 
 function join(user)
 {
-    API.sendChat("@" + user.username + " Enjoy your stay in the " + Models.room.data.name + "!");
+    API.sendChat("@" + user.username + " Enjoy your stay in the " + Models.room.data.name + " room!");
 //window.setTimeout(function(){f_rule({from: user.username});}, 1000);
 }
 
@@ -152,7 +152,7 @@ function f_brb(data) {
 API.sendChat('@'+data.from+' Come back soon!');
 }
 function f_drink(data) {
-API.sendChat('Here is your strong alcoholic beverage @'+data.from+' !');
+API.sendChat('Here is your strong alcoholic beverage @'+data.from+' , enjoy!');
 }
 
 function f_joke(data) {
