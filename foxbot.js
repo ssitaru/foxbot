@@ -8,7 +8,7 @@
 /*global $, API, Room, Playback, Models*/
 
 var o_settings = {
-    autoSkip: false,
+    autoSkip: true,
     autoWoot: true,
     autoQueue: true,
     welcomeMsg: true,
@@ -20,7 +20,7 @@ var o_tmp = {};
 var b_hasModRights = true;
 var o_autoSkipOpts = {
 strictMode: false,
-maxSongLength: 10, // in mins
+maxSongLength: 8, // in mins
 i_timerID: null,
 f_autoSkip: f_long
 };
@@ -352,6 +352,7 @@ f_long();
 // normal mode (and if track length more than <maxSongLength>): set a timer for <maxSongLength> mins to skip the track
 var o_djs = API.getDJs();
 o_tmp.username = o_djs[0].username;
+API.sendChat('@'+o_tmp.username+' Sorry, your song is over the allowed time limit and will be skipped after 8 minutes.');
 o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.f_autoSkip, (o_autoSkipOpts.maxSongLength)*60*1000);
 }
 }
