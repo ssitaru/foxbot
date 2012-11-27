@@ -76,10 +76,10 @@ API.sendChat('/me Commands currently supported are: '+cmds_clean);
 function f_skip(data) {
     API.sendChat('/me Current DJ has been skipped by operator!');
     window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
-window.setTimeout(function(){API.sendChat("/me [foxbot] Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
+window.setTimeout(function(){API.sendChat("/me Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
 }
 function f_long() {
-API.sendChat('@'+o_tmp.username+' Sorry, your song is over the allowed time limit.');
+API.sendChat('@'+o_tmp.username+' Your song has played for 8 minutes and will now be skipped!');
     window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
 }
 function f_lock(data) {
@@ -352,7 +352,7 @@ f_long();
 // normal mode (and if track length more than <maxSongLength>): set a timer for <maxSongLength> mins to skip the track
 var o_djs = API.getDJs();
 o_tmp.username = o_djs[0].username;
-API.sendChat('@'+o_tmp.username+' Sorry, your song is over the allowed time limit and will be skipped after 8 minutes.');
+API.sendChat('@'+o_tmp.username+' [WARNING] Sorry, your song is over the allowed time limit and will be automagically skipped after 8 minutes.');
 o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.f_autoSkip, (o_autoSkipOpts.maxSongLength)*60*1000);
 }
 }
