@@ -13,7 +13,7 @@ var o_settings = {
     autoQueue: true,
     welcomeMsg: true,
     goodbyeMsg: false,
-    rules: '/me Play EDM only, no Trap. 5-8 min max. Please show love and respect to everyone.'
+    rules: 'Play EDM only, no Trap. 5-8 min max. Please show love and respect to everyone.'
 };
 var a_jokes = [];
 var o_tmp = {};
