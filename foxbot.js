@@ -13,7 +13,7 @@ var o_settings = {
     autoQueue: true,
     welcomeMsg: true,
     goodbyeMsg: false,
-    rules: 'Welcome everybody, play EDM, no Trap. 5-8 min max. Please show love and respect.'
+    rules: '/me Play EDM only, no Trap. 5-8 min max. Please show love and respect to everyone.'
 };
 var a_jokes = [];
 var o_tmp = {};
@@ -26,7 +26,7 @@ f_autoSkip: f_long
 };
 
 function f_foxbotInit() { // init foxbot, gets called at the very end
-window.setTimeout(function(){API.sendChat('/me System Online!');}, 5000);
+window.setTimeout(function(){API.sendChat('/me This user is now running foxbot!');}, 5000);
 
     b_hasModRights = API.getSelf().moderator;
     
@@ -46,7 +46,7 @@ Playback.setVolume(0);
 
 function join(user)
 {
-    API.sendChat("Welcome @" + user.username + " to the " + Models.room.data.name + " room!");
+    API.sendChat("Welcome @" + user.username + " to the " + Models.room.data.name + " room. Thank you for plugging in!");
 //window.setTimeout(function(){f_rule({from: user.username});}, 1000);
 }
 
