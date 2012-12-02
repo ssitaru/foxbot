@@ -154,6 +154,9 @@ API.sendChat('@'+data.from+' Come back soon!');
 function f_drink(data) {
 API.sendChat('Here is your strong alcoholic beverage @'+data.from+' , enjoy!');
 }
+function f_whymeh(data) {
+API.sendChat('/me Please reserve mehs for songs that are A: Troll songs, B: Truly terrible, or C: Overplayed. If you are simply not feeling a song remain neutral.');
+}
 
 function f_joke(data) {
     n = Math.floor(Math.random()*a_jokes.length);
@@ -257,6 +260,10 @@ var o_chatcmds = {
         },
 '/joke': {
             f: f_joke,
+            needsPerm: false
+        },
+'/whymeh': {
+            f: f_whymeh,
             needsPerm: false
         },
 '/test': {
