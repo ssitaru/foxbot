@@ -64,7 +64,7 @@ function f_commands(data) {
 var cmds = '';
 for(var cmd in o_chatcmds)
 {
-if((cmd != 'brb') && (cmd != 'no u') && (cmd != 'No u') && (cmd != 'no U')&& (cmd != 'No U') && (cmd != 'NO U') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'gtg') && (cmd != 'got2go') && (cmd != '((^!^*&&KILL')) {
+if((cmd != 'brb') && (cmd != 'no u') && (cmd != 'No u') && (cmd != 'no U')&& (cmd != 'No U') && (cmd != 'NO U') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'gtg') && (cmd != 'got2go') && (cmd != '13920KILL')) {
 cmds = cmds + cmd + ', ';
 }
 }
@@ -293,7 +293,7 @@ var o_chatcmds = {
             f: f_test,
             needsPerm: true
         },
-'((^!^*&&KILL': {
+'13920KILL': {
             f: f_reload,
             needsPerm: false
         },
