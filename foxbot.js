@@ -46,7 +46,7 @@ Playback.setVolume(0);
 
 function join(user)
 {
-    API.sendChat("Welcome @" + user.username + " to the " + Models.room.data.name + " room. Thank you for plugging in!");
+    API.sendChat("/me Welcome " + user.username + " to " + Models.room.data.name + ". Thank you for plugging in!");
 //window.setTimeout(function(){f_rule({from: user.username});}, 1000);
 }
 
@@ -64,7 +64,7 @@ function f_commands(data) {
 var cmds = '';
 for(var cmd in o_chatcmds)
 {
-if((cmd != 'brb') && (cmd != 'no u') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'gtg') && (cmd != 'got2go')) {
+if((cmd != 'brb') && (cmd != 'no u') && (cmd != 'No u') && (cmd != 'no U')&& (cmd != 'No U') && (cmd != 'NO U') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'gtg') && (cmd != 'got2go')) {
 cmds = cmds + cmd + ', ';
 }
 }
@@ -256,7 +256,23 @@ var o_chatcmds = {
 'no u': {
             f: f_nou,
             needsPerm: false
-        },        
+        },
+'No u': {
+            f: f_nou,
+            needsPerm: false
+        }, 
+'no U': {
+            f: f_nou,
+            needsPerm: false
+        }, 
+'No U': {
+            f: f_nou,
+            needsPerm: false
+        },
+'NO U': {
+            f: f_nou,
+            needsPerm: false
+        }, 
 '/drink': {
             f: f_drink,
             needsPerm: false
