@@ -382,6 +382,8 @@ a_jokes = ["\
 Q. Why did the man put his money in the freezer?\
 A. He wanted cold hard cash!\
 ","\
+Heh, javascript\
+","\
 Q. What did the porcupine say to the cactus?\
 A. \"Is that you mommy?\"\
 ","\
