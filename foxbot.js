@@ -46,7 +46,7 @@ Playback.setVolume(0);
 
 function join(user)
 {
-    API.sendChat("/me Welcome " + user.username + " to " + Models.room.data.name + ". Thank you for plugging in!");
+    API.sendChat("/me Welcome @" + user.username + " to " + Models.room.data.name + ". Thank you for plugging in!");
 //window.setTimeout(function(){f_rule({from: user.username});}, 1000);
 }
 
