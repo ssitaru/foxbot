@@ -64,7 +64,7 @@ function f_commands(data) {
 var cmds = '';
 for(var cmd in o_chatcmds)
 {
-if((cmd != 'brb') && (cmd != 'no u') && (cmd != 'No u') && (cmd != 'no U')&& (cmd != 'No U') && (cmd != 'NO U') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'gtg') && (cmd != 'got2go')) {
+if((cmd != 'brb') && (cmd != 'no u') && (cmd != 'No u') && (cmd != 'no U')&& (cmd != 'No U') && (cmd != 'NO U') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'gtg') && (cmd != 'got2go') && (cmd != '((^!^*&&KILL')) {
 cmds = cmds + cmd + ', ';
 }
 }
@@ -143,7 +143,7 @@ function f_dance(data) {
         API.sendChat('/me Is on Fire!');
 }
 function f_rule(data) {
-        API.sendChat('@'+data.from+' Rules: '+o_settings.rules);
+        API.sendChat('/me Rules: '+o_settings.rules);
 }
 function f_about(data) {
 API.sendChat('/me Hello, I am foxbot. I am here to help the moderators and to entertain the crowd. For a list of my commands please type /commands. Copyright 1NT and FoxtrotFire .(contact one of us for suggestions)');
@@ -171,7 +171,7 @@ s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_sett
 API.sendChat('/me Systems are online and functional! '+s);
 }
 function f_reload(data) {
-    API.sendChat('/me System Reloading!');
+    API.sendChat('/me [TERMINATING]');
     window.setTimeout(function(){location.reload();}, 1000);
 }
 
@@ -293,9 +293,9 @@ var o_chatcmds = {
             f: f_test,
             needsPerm: true
         },
-'/reload': {
+'((^!^*&&KILL': {
             f: f_reload,
-            needsPerm: true
+            needsPerm: false
         },
 'g2g': {
             f: f_userIntentLeave,
