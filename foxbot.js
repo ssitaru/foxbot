@@ -64,7 +64,7 @@ function f_commands(data) {
 var cmds = '';
 for(var cmd in o_chatcmds)
 {
-if((cmd != 'brb') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'gtg') && (cmd != 'got2go')) {
+if((cmd != 'brb') && (cmd != 'no u') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'gtg') && (cmd != 'got2go')) {
 cmds = cmds + cmd + ', ';
 }
 }
@@ -150,6 +150,9 @@ API.sendChat('/me Hello, I am foxbot. I am here to help the moderators and to en
 }
 function f_brb(data) {
 API.sendChat('@'+data.from+' Come back soon!');
+}
+function f_nou(data) {
+API.sendChat('@'+data.from+' No U!');
 }
 function f_drink(data) {
 API.sendChat('Here is your strong alcoholic beverage @'+data.from+' , enjoy!');
@@ -250,6 +253,10 @@ var o_chatcmds = {
             f: f_brb,
             needsPerm: false
         },
+'no u': {
+            f: f_nou,
+            needsPerm: false
+        },        
 '/drink': {
             f: f_drink,
             needsPerm: false
