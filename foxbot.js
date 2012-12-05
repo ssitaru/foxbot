@@ -1,407 +1,280 @@
-/*
-* foxbot.js - a bot for plug.dj
-*
-* Copyright (C) 2012 by 1NT and FoxtrotFire
-*/
+////////////////////////////////////////////////////////////////ni
+////////////////////////////////////////////////////////////////
+// IF YOU ARE EDITING THIS SCRIPT. PLEASE FOLLOW PROPER
+// PROGRAMMING CONVENTION AND MAKE YOUR CODE READABLE.
+//
+// REMEMBER: WE ARE HUMANS EDITING CODE. NOT ROBOTS. WHITESPACE
+// IN THE PROPER POSITION CAN GREATLY DECREASE THE TIME IT TAKES
+// AMOUNT OF TIME IT TAKES TO MAKE CODE EDITS.
+//
+// THE CODE IS BEING EDITED TO REFLECT THE AFOREMENTIONED
+// STANDARDS. IF YOU ARE NOT FAMILIAR WITH THEM, PLEASE DO NOT
+// HESITATE TO CONTACT ME.
+//
+// ALSO, SINCE WE ARE NOT GOING TO PASS JSLINT ANYWAY, THE
+// JSLINT TESTS ANYWAYS, I AM REMOVING BOTH OF THOSE LINES --
+// THE LINE UNDER GLOBAL SEEMS TO BE FOR JSLINT.
+// 
+//     				THANK YOU,
+//						[tw].me
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
 
-/*jslint devel:true, sloppy:true, browser:true, white:true*/
-/*global $, API, Room, Playback, Models*/
 
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+//	foxbot.js :: A robot that automates certain functions for
+//		plug.dj
+//	Version 101.12.6_2.1
+//	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me
+////////////////////////////////////////////////////////////////
+//  Changelog Version 101.12.6_2.1
+//  -Replaced original code on github with current versiom
+//  -Added Jokes
+//  -replaced reload command from '13920KILL' to '/kill'
+////////////////////////////////////////////////////////////////
+//	Changelog V.101.12.6.4.1
+//	-Fixed Permissions
+//		-For the curious: Mod means permission>1, or at lesat
+//		 bouncer
+//	-Revamped the little information thing that used to be here
+//	 with the thing above the changelog
+//	-Added a changelog 
+//	-Added Version numbers. Here's how they work:
+//		-Year.Month.Day.ID.EditNumber
+//			-Taiwan years
+//				-2012==101
+//				-Calculate from 2012
+//			-ID is your ID.
+//				-1NT==1
+//				-FoxtrotFire==2
+//				-Royal Soda==3
+//				-[tw].me==4
+//			-If today is your first edit, EditNumber==1.
+//				-Increases by one for each edit thereafter.
+// 	-Code Slightly Reorganized For Better Readability
+//		-Commands sorted in alphanumerical order by permission
+//		 group (punctuation->0-9->a-z->A-Z). Organized by chmod
+//		 permissions.
+//	-Added letter from me to you at the top (will remove in next
+//	 update). If you edit this code, PLEASE READ.
+//	-Revamped Command Object
+//		-Added a REQUIRED visibility characteristic on ALL
+//		 commands in o_chatcmds
+//			-THIS IS REQUIRED. JAVASCRIPT DOES WEIRD THINGS IF
+//			 IT DOESN'T EXIST
+//			-It makes it visible when you type in "/commands"
+//				-true=>Show
+//				-false=>hide
+//	-Modified f_commands
+//		-Parses visibility instead of explicit exception list.
+//	-Fixed b_hasModRights
+//		-Only useful for /test but I kept it anyway. Checks if
+//		 bot has mod rights. MIGHT edit the bot to silently
+//		 change output depending on it
+//			-i.e. /skip doesn't show up if bot can't skip
+//	-Rewrote the about to be less of an explanation and more of
+//	 what you would expect if you looked at the help|about of a
+//	 program on your computer.
+//	-Changed the response to "BRB" to something that makes more
+//	 sense to me.
+//	-Only mods can 13920KILL
+//	-Changed some comments
+//	-Added a few easter eggs
+//	-Removed code that seemed to be built for JSLint parsing
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+
+//Begin Variable Declarations
 var o_settings = {
     autoSkip: true,
     autoWoot: true,
     autoQueue: true,
     welcomeMsg: true,
     goodbyeMsg: false,
-    rules: 'Play EDM only, no Trap. 5-8 min max. Please show love and respect to everyone.'
+    rules: 'Play EDM only, no Trap. 5-8 min max. Please show love and respect to everyone.',
+	strictMode: false,
+	maxSongLength: 8, // in mins
+	i_timerID: null,
+	f_autoSkip: f_long
 };
 var a_jokes = [];
 var o_tmp = {};
-var b_hasModRights = true;
-var o_autoSkipOpts = {
-strictMode: false,
-maxSongLength: 8, // in mins
-i_timerID: null,
-f_autoSkip: f_long
-};
-
-function f_foxbotInit() { // init foxbot, gets called at the very end
-window.setTimeout(function(){API.sendChat('/me This user is now running foxbot!');}, 5000);
-
-    b_hasModRights = API.getSelf().moderator;
-    
-// now all the event listeners
-API.addEventListener(API.USER_JOIN, join);
-//API.addEventListener(API.USER_LEAVE, leave);
-API.addEventListener("curateUpdate", f_curate);
-API.addEventListener(API.CHAT, f_checkChat);
-API.addEventListener(API.DJ_ADVANCE, f_djAdvance);
-    
-    
-
-// mute the player
-Playback.setVolume(0);
-}
-
-
-function join(user)
-{
-    API.sendChat("/me Welcome @" + user.username + " to " + Models.room.data.name + ". Thank you for plugging in!");
-//window.setTimeout(function(){f_rule({from: user.username});}, 1000);
-}
-
-//function leave(user)
-//{
-// API.sendChat("/me " + user.username + " left the room. =( ");
-//}
-
-function f_curate(data)
-{
-API.sendChat("/me " + data.user.username + " loves this track!");
-}
-    
-function f_commands(data) {
-var cmds = '';
-for(var cmd in o_chatcmds)
-{
-if((cmd != 'brb') && (cmd != 'no u') && (cmd != 'No u') && (cmd != 'no U')&& (cmd != 'No U') && (cmd != 'NO U') && (cmd != 'gotta go') && (cmd != 'g2g') && (cmd != 'gtg') && (cmd != 'got2go') && (cmd != '13920KILL')) {
-cmds = cmds + cmd + ', ';
-}
-}
-cmds_clean = cmds.slice(0, -2);
-    //API.sendChat('/me Commands currently supported are: /commands, /rules, /cookie, /lock, /unlock, /skip, /retry, rapes foxbot, hugs foxbot, brb, /about, /autoskip, /joke, /test, /reload, /dance');
-API.sendChat('/me Commands currently supported are: '+cmds_clean);
-}
-
-function f_skip(data) {
-    API.sendChat('/me Current DJ has been skipped by operator!');
-    window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
-window.setTimeout(function(){API.sendChat("/me Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
-}
-function f_long() {
-API.sendChat('@'+o_tmp.username+' Your song has played for 8 minutes and will now be skipped!');
-    window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
-}
-function f_lock(data) {
-        API.sendChat('/me Dj Booth has been locked by operator!');
-        rpcGW.execute('room.update_options', null, Models.room.data.id,
-              {
-                name: Models.room.data.name,
-                description: Models.room.data.description,
-                boothLocked: true,
-                waitListEnabled: Models.room.data.waitListEnabled,
-                maxPlays: Models.room.data.maxPlays,
-                maxDJs:5
-              });
-}
-function f_unlock(data) {
-        API.sendChat('/me Dj Booth has been unlocked by operator!');
-        rpcGW.execute('room.update_options', null, Models.room.data.id,
-              {
-                name: Models.room.data.name,
-                description: Models.room.data.description,
-                boothLocked: false,
-                waitListEnabled: Models.room.data.waitListEnabled,
-                maxPlays: Models.room.data.maxPlays,
-                maxDJs:5
-              });
-}
-function f_retry(data) {
-API.sendChat('/me Please choose a different song and try again.');
-window.setTimeout(function(){ rpcGW.execute('room.update_options', null, Models.room.data.id,
-              {
-                name: Models.room.data.name,
-                description: Models.room.data.description,
-                boothLocked: true,
-                waitListEnabled: Models.room.data.waitListEnabled,
-                maxPlays: Models.room.data.maxPlays,
-                maxDJs:5
-              });}, 1000);
-window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 3000);
-window.setTimeout(function(){rpcGW.execute('room.update_options', null, Models.room.data.id,
-              {
-                name: Models.room.data.name,
-                description: Models.room.data.description,
-                boothLocked: false,
-                waitListEnabled: Models.room.data.waitListEnabled,
-                maxPlays: Models.room.data.maxPlays,
-                maxDJs:5
-              });}, 5000);
-}	
-function f_cookie(data) {
-        API.sendChat('@'+data.from+': here you go!');
-        window.setTimeout(function(){API.sendChat('/me tosses a cookie at '+data.from);}, 500);
-}
-function f_rape(data) {
-        API.sendChat('/me slays @'+data.from+'!');
-}
-
-function f_hug(data) {
-        API.sendChat('/me hugs @'+data.from+'!');
-}
-function f_dance(data) {
-        API.sendChat('/me Is on Fire!');
-}
-function f_rule(data) {
-        API.sendChat('/me Rules: '+o_settings.rules);
-}
-function f_about(data) {
-API.sendChat('/me Hello, I am foxbot. I am here to help the moderators and to entertain the crowd. For a list of my commands please type /commands. Copyright 1NT and FoxtrotFire .(contact one of us for suggestions)');
-}
-function f_brb(data) {
-API.sendChat('@'+data.from+' Come back soon!');
-}
-function f_nou(data) {
-API.sendChat('@'+data.from+' No U!');
-}
-function f_drink(data) {
-API.sendChat('Here is your strong alcoholic beverage @'+data.from+' , enjoy!');
-}
-function f_whymeh(data) {
-API.sendChat('/me Please reserve mehs for songs that are A: Troll songs, B: Truly terrible, or C: Overplayed. If you are simply not feeling a song remain neutral.');
-}
-
-function f_joke(data) {
-    n = Math.floor(Math.random()*a_jokes.length);
-   
-    API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
-}
-function f_test(data) {
-s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', AW: '+o_settings.autoWoot+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
-API.sendChat('/me Systems are online and functional! '+s);
-}
-function f_reload(data) {
-    API.sendChat('/me [TERMINATING]');
-    window.setTimeout(function(){location.reload();}, 1000);
-}
-
-function f_userIntentLeave(data) {
-API.sendChat('@'+data.from+': we hope you enjoyed your stay, please visit us again soon!');
-}
-
-function f_toggleStrictMode(data) {
-if(o_autoSkipOpts.strictMode == false) {
-API.sendChat('/me Strict mode now enabled');
-o_autoSkipOpts.strictMode = true;
-} else {
-API.sendChat('/me Strict mode now disabled');
-o_autoSkipOpts.strictMode = false;
-}
-}
-
-function f_set(data) {
-    var args = f_getArgs(data.message);
-    var setValue = args[1];
-    var s;
-    if((setValue == 'true') || (setValue == 'false'))
-    {
-        s = 'o_settings.'+args[0]+' = '+setValue+';';
-    } else { // we're dealing with strings
-        setValue = setValue.replace("'", "\\'");
-        s = 'o_settings.'+args[0]+' = \''+setValue+'\';';
-    }
-    eval(s);
-    API.sendChat('/me '+args[0]+' now '+eval('o_settings.'+args[0]));
-}
+var b_hasModRights = false;
 
 var o_chatcmds = {
-        '/commands': {
-            f: f_commands,
-            needsPerm: false
-        },
-        '/skip': {
-            f: f_skip,
-            needsPerm: true,
-            needsLocalPerm: true
-        },
-'/lock': {
-            f: f_lock,
-            needsPerm: true,
-            needsLocalPerm: true
-        },
-'/unlock': {
-            f: f_unlock,
-            needsPerm: true,
-            needsLocalPerm: true
-        },
-'/retry': {
-            f: f_retry,
-            needsPerm: true,
-            needsLocalPerm: true
-        },
-        '/cookie': {
-            f: f_cookie,
-            needsPerm: false
-        },
-'rapes foxbot': {
-            f: f_rape,
-            needsPerm: false
-        },
-'hugs foxbot': {
-            f: f_hug,
-            needsPerm: false
-        },
-'/rules': {
-            f: f_rule,
-            needsPerm: false
-        },
-'/about': {
-            f: f_about,
-            needsPerm: false
-        },
-'brb': {
-            f: f_brb,
-            needsPerm: false
-        },
-'no u': {
-            f: f_nou,
-            needsPerm: false
-        },
-'No u': {
-            f: f_nou,
-            needsPerm: false
-        }, 
-'no U': {
-            f: f_nou,
-            needsPerm: false
-        }, 
-'No U': {
-            f: f_nou,
-            needsPerm: false
-        },
-'NO U': {
-            f: f_nou,
-            needsPerm: false
-        }, 
-'/drink': {
-            f: f_drink,
-            needsPerm: false
-        },
-'/autostrict': {
-            f: f_toggleStrictMode,
-            needsPerm: true
-        },
-'/joke': {
-            f: f_joke,
-            needsPerm: false
-        },
-'/whymeh': {
-            f: f_whymeh,
-            needsPerm: false
-        },
-'/test': {
-            f: f_test,
-            needsPerm: true
-        },
-'13920KILL': {
-            f: f_reload,
-            needsPerm: false
-        },
-'g2g': {
-            f: f_userIntentLeave,
-            needsPerm: false
-        },
-        'gtg': {
-            f: f_userIntentLeave,
-            needsPerm: false
-        },
-'gotta go': {
-            f: f_userIntentLeave,
-            needsPerm: false
-        },
-'got2go': {
-            f: f_userIntentLeave,
-            needsPerm: false
-        },
-        '/dance': {
-            f: f_dance,
-            needsPerm: false
-        },
-        '/set': {
-            f: f_set,
-            needsPerm: true
-        }
+	/////////////////////////////////////////////
+	// chmod 555
+	/////////////////////////////////////////////
+	'/about': {
+		f: f_about,
+		needsPerm: false,
+		visible: true
+	},
+	'/cookie': {
+		f: f_cookie,
+		needsPerm: false,
+		visible: true
+	},
+	'/commands': {
+		f: f_commands,
+		needsPerm: false,
+		visible: true
+	},
+	'/dance': {
+		f: f_dance,
+		needsPerm: false,
+		visible: true
+	},
+	'/drink': {
+		f: f_drink,
+		needsPerm: false,
+		visible: true
+	},
+	'/joke': {
+		f: f_joke,
+		needsPerm: false,
+		visible: true
+	},
+	'/rules': {
+		f: f_rule,
+		needsPerm: false,
+		visible: true
+	},
+	'/whymeh': {
+		f: f_whymeh,
+		needsPerm: false,
+		visible: true
+	},
+	'hugs foxbot': {
+		f: f_hug,
+		needsPerm: false,
+		visible: true
+	},
+	'rapes foxbot': {
+		f: f_rape,
+		needsPerm: false,
+		visible: true
+	},
+	/////////////////////////////////////////////
+	// chmod 554
+	/////////////////////////////////////////////
+	'/autostrict': {
+		f: f_toggleStrictMode,
+		needsPerm: true,
+		visible: true
+	},
+	'/lock': {
+		f: f_lock,
+		needsPerm: true,
+		needsLocalPerm: true,
+		visible: true
+	},
+	'/retry': {
+		f: f_retry,
+		needsPerm: true,
+		needsLocalPerm: true,
+		visible: true
+	},
+	'/set': {
+		f: f_set,
+		needsPerm: true,
+		visible: true
+	},
+	'/skip': {
+		f: f_skip,
+		needsPerm: true,
+		needsLocalPerm: true,
+		visible: true
+	},
+	'/test': {
+		f: f_test,
+		needsPerm: true,
+		visible: true
+	},	
+	'/unlock': {
+		f: f_unlock,
+		needsPerm: true,
+		needsLocalPerm: true,
+		visible: true
+	},
+	////////////////////////////////////////////
+	// chmod 111
+	////////////////////////////////////////////
+	'brb': {
+		f: f_brb,
+		needsPerm: false,
+		visible: false
+	},
+	'g2g': {
+		f: f_userIntentLeave,
+		needsPerm: false,
+		visible: false
+	},
+	'gtg': {
+		f: f_userIntentLeave,
+		needsPerm: false,
+		visible: false
+	},
+	'got2go': {
+		f: f_userIntentLeave,
+		needsPerm: false,
+		visible: false
+	},
+	'gotta go': {
+		f: f_userIntentLeave,
+		needsPerm: false,
+		visible: false
+	},
+	'no u': {
+		f: f_nou,
+		needsPerm: false,
+		visible: false
+	}, 
+	'no U': {
+		f: f_nou,
+		needsPerm: false,
+		visible: false
+	}, 
+	'No u': {
+		f: f_nou,
+		needsPerm: false,
+		visible: false
+	},
+	'No U': {
+		f: f_nou,
+		needsPerm: false,
+		visible: false
+	},
+	'NO U': {
+		f: f_nou,
+		needsPerm: false,
+		visible: false
+	},
+	'plug.dj/': {
+		f: f_nospam,
+		needsPerm: false,
+		visible: false
+	},	
+	'suidobashijuko': {
+		f: f_suidobashijuko,
+		needsPerm: false,
+		visible: false
+	}, 
+	////////////////////////////////////////////
+	// chmod 110
+	////////////////////////////////////////////
+	'/kill': {
+		f: f_reload,
+		needsPerm: true,
+		visible: false
+	},
+	////////////////////////////////////////////
+	// chmod 100 ::TEST COMMANDS
+	////////////////////////////////////////////
 };
-
-function f_checkChat(data) {
-        if((data.type == "message") && (data.fromID != API.getSelf().id)) {
-                for(var s in o_chatcmds) {
-                        if(data.message.toString().indexOf(s) != -1) { // dont parse our own messages
-                                // finally, perm check
-                                if(o_chatcmds[s].needsPerm)
-                                {
-                                        if(API.getUser(data.fromID).chat-bouncer || API.getUser(data.fromID).bouncer || API.getUser(data.fromID).owner) {
-                                                o_chatcmds[s].f(data);
-                                        } else {
-                                                API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
-                                        }
-                                } else {
-                                        o_chatcmds[s].f(data);
-                                }
-                               
-                        }
-                }
-               
-        }
-}
-    
-function f_getArgs(s) {
-    var a_s = s.split(' '); // [0] = <command>; [1-n] args
-    var s_real = '';
-    for(var i = 1; i < a_s.length; i++) {
-        s_real += ' ' + a_s[i];
-    }
-    
-    a_opts = s_real.split(';');
-    
-    return a_opts;
-    
-}
-
-function f_djAdvance(obj)
-{
-        var i_timeRem = -1;
-        s_timeRem = jQuery('#time-remaining-value').text();
-        while(s_timeRem == null) // wait on music to load & time to appear
-        {
-            s_timeRem = jQuery('#time-remaining-value').text();
-        }
-        a_timeRem = s_timeRem.toString().split(':');
-        i_timeRem = (parseInt(a_timeRem[0])*60) + parseInt(a_timeRem[1]);
-
-// auto-skip code:
-// clear previous timeout
-window.clearTimeout(o_autoSkipOpts.i_timerID);
-// if autoskip enabled & song over time limit
-if(o_settings.autoSkip && (i_timeRem > (o_autoSkipOpts.maxSongLength)*60)){
-if(o_autoSkipOpts.strictMode) { // strict mode, skip song immediately
-var o_djs = API.getDJs();
-o_tmp.username = o_djs[0].username;
-f_long();
-} else {
-// normal mode (and if track length more than <maxSongLength>): set a timer for <maxSongLength> mins to skip the track
-var o_djs = API.getDJs();
-o_tmp.username = o_djs[0].username;
-API.sendChat('@'+o_tmp.username+' [WARNING] Sorry, your song is over the allowed time limit and will be automagically skipped after 8 minutes.');
-o_autoSkipOpts.i_timerID = window.setTimeout(o_autoSkipOpts.f_autoSkip, (o_autoSkipOpts.maxSongLength)*60*1000);
-}
-}
-
-// auto-woot the track if enabled
-if(o_settings.autoWoot) {
-jQuery("#button-vote-positive").click();
-}
-
-
-// autoqueue if enabled
-if(o_settings.b_autoQueue) {
-if(jQuery('#button-dj-waitlist-join').css('display') != 'none') {
-jQuery('#button-dj-waitlist-join').click();
-}
-}
-}
-
-a_jokes = ["\
+var a_jokes = ["\
 Q. Why did the man put his money in the freezer? \
 A. He wanted cold hard cash!\
 ","\
@@ -888,4 +761,302 @@ Q. What would you call two banana skins? \
 A. A pair of slippers.\
 "];
 
+//Begin Function Declarations
+function f_foxbotInit() {
+	window.setTimeout(function(){API.sendChat('/me This user is now running foxbot!');}, 5000);
+	b_hasModRights = API.getSelf().permission>1;
+	// now all the event listeners
+	API.addEventListener(API.USER_JOIN, join);
+	/*API.addEventListener(API.USER_LEAVE, leave);*/
+	API.addEventListener("curateUpdate", f_curate);
+	API.addEventListener(API.CHAT, f_checkChat);
+	API.addEventListener(API.DJ_ADVANCE, f_djAdvance);
+	// mute the player
+	Playback.setVolume(0);
+}
+function join(user)
+{
+    API.sendChat("/me Welcome @" + user.username + " to " + Models.room.data.name + ". Thank you for plugging in!");
+	//window.setTimeout(function(){f_rule({from: user.username});}, 1000);
+}
+
+/*
+function leave(user){
+	API.sendChat("/me " + user.username + " left the room. =( ");
+}
+*/
+
+function f_curate(data){
+	API.sendChat("/me " + data.user.username + " loves this track!");
+}
+function f_commands(data){
+	var cmds = '';
+	for(var cmd in o_chatcmds){
+		if(o_chatcmds[cmd].visible){
+			cmds = cmds + cmd + ', ';
+		}
+	}
+	cmds_clean = cmds.slice(0, -2);
+	API.sendChat('/me Commands currently supported are: '+cmds_clean);
+}
+
+function f_skip(data) {
+    API.sendChat('/me Current DJ has been skipped by operator!');
+    window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
+	window.setTimeout(function(){API.sendChat("/me Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
+}
+function f_long() {
+	API.sendChat('@'+o_tmp.username+' Your song has played for '+o_settings.maxSongLength+' minutes and will now be skipped!');
+    window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
+}
+function f_lock(data) {
+        API.sendChat('/me Dj Booth has been locked by operator!');
+        rpcGW.execute('room.update_options', null, Models.room.data.id,
+              {
+                name: Models.room.data.name,
+                description: Models.room.data.description,
+                boothLocked: true,
+                waitListEnabled: Models.room.data.waitListEnabled,
+                maxPlays: Models.room.data.maxPlays,
+                maxDJs:5
+              }
+		);
+}
+function f_unlock(data){
+	API.sendChat('/me Dj Booth has been unlocked by operator!');
+    rpcGW.execute('room.update_options', null, Models.room.data.id,
+		{
+			name: Models.room.data.name,
+			description: Models.room.data.description,
+			boothLocked: false,
+			waitListEnabled: Models.room.data.waitListEnabled,
+			maxPlays: Models.room.data.maxPlays,
+			maxDJs:5
+		}
+	);
+}
+function f_retry(data) {
+	API.sendChat('/me Please choose a different song and try again.');
+	window.setTimeout(function(){ rpcGW.execute('room.update_options', null, Models.room.data.id,
+		{
+			name: Models.room.data.name,
+			description: Models.room.data.description,
+			boothLocked: true,
+			waitListEnabled: Models.room.data.waitListEnabled,
+			maxPlays: Models.room.data.maxPlays,
+			maxDJs:5
+		}
+	);}, 1000);
+	window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 3000);
+	window.setTimeout(function(){rpcGW.execute('room.update_options', null, Models.room.data.id,
+		{
+			name: Models.room.data.name,
+			description: Models.room.data.description,
+			boothLocked: false,
+			waitListEnabled: Models.room.data.waitListEnabled,
+			maxPlays: Models.room.data.maxPlays,
+			maxDJs:5
+		}
+	);}, 5000); //This line is part of the LAST window.setTimeout command
+}	
+function f_cookie(data){
+	API.sendChat('@'+data.from+': here you go!');
+	window.setTimeout(function(){API.sendChat('/me tosses a cookie at '+data.from);}, 500);
+}
+function f_rape(data){
+	API.sendChat('/me slays @'+data.from+'!');
+}
+function f_hug(data){
+	API.sendChat('/me hugs @'+data.from+'!');
+}
+function f_dance(data){
+	API.sendChat('/me Is on Fire!');
+}
+function f_rule(data) {
+	API.sendChat('/me Rules: '+o_settings.rules);
+}
+function f_about(data) {
+	API.sendChat('/me [foxbot v0.101.12.6.4.1] by 1NT, foxtrotfire, royal soda, [tw].me. Type in "/commands" to find out how to interact with me.');
+}
+function f_brb(data) {
+	API.sendChat('@'+data.from+' Hurry back!!');
+}
+function f_nou(data) {
+	API.sendChat('@'+data.from+' No U!');
+}
+function f_drink(data) {
+	switch(data.fromID){
+		case "50aeb0af3e083e18fa2d5d6e":
+			//SartheBoat
+			API.sendChat('Some gasoline to fuel the @'+data.from+' ! The ship has been refueled, captain!');
+			break;
+		case "50aeb5e83e083e18fa2e20a0":
+			//WJG
+			API.sendChat("Here's your hard cider, @"+data.from+" . Enjoy!");
+			break;
+		case "50aeb07a877b9217e2fbffb2":
+			//Guess who? It's already in there
+			API.sendChat("The master has spoken! One Absolut Vodka for @"+data.from+" !");
+			break;
+		case "50aeb020d6e4a94f774740a9":
+			//foxtrot
+			API.sendChat("Sorry, we're all out of alcohol. Here's your apple juice, @"+data.from+" .");
+			break;
+		case "50aeb3fa3e083e18fa2ddbed":
+			//FramedTKE
+			API.sendChat("Dang, you were framed? Here's a jagerbomb to help you get through the night, @"+data.from+" . All your drinks are on the house!");
+			break;
+		case "50aeb3ea3e083e18fa2dd996":
+			//[SOL]
+			API.sendChat("Here's your scotch, Mr. "+data.from+" , sir.");
+			break;
+		case "50aeb3fd96fba52c3ca0d0a6":
+			//krstenalex
+			API.sendChat("Rum delivered by Ms. Jolie? Hm. I can do the rum but I don't know about Ms. Jolie. Ah, speak of the devil, she just walked through the door. Here is rum your with a side of Angelina Jolie, @"+data.from+" !");
+			break;
+		case "50aeb3fd96fba52c3ca0d0c2":
+			//micro
+			API.sendChat("Here's some tequila and chocolate milk. Down one drink, or down both. The choice is yours, "+data.from+" .");
+			break;
+		case "50aeb3aa877b9217e2fc8036":
+			//CopyLeft
+			API.sendChat("Here is a bloody mary, with some actual blood from Mary... Please refrain from ordering a drink, @"+data.from+" , as we are running out of people named Mary...");
+			break;
+		default:
+			API.sendChat('Here is your strong alcoholic beverage @'+data.from+' , enjoy!');
+	}
+}
+function f_whymeh(data) {
+	API.sendChat('/me Please reserve mehs for songs that are A: Troll songs, B: Truly terrible, or C: Overplayed. If you are simply not feeling a song remain neutral.');
+}
+
+function f_joke(data) {
+    n = Math.floor(Math.random()*a_jokes.length);
+    API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
+}
+function f_test(data) {
+	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', AW: '+o_settings.autoWoot+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
+	API.sendChat('/me Systems are online and functional! '+s);
+}
+function f_reload(data) {
+    API.sendChat('/me [TERMINATING]');
+    window.setTimeout(function(){location.reload();}, 1000);
+}
+function f_userIntentLeave(data) {
+	API.sendChat('@'+data.from+': we hope you enjoyed your stay, please visit us again soon!');
+}
+function f_toggleStrictMode(data) {
+	if(o_settings.strictMode == false) {
+		API.sendChat('/me Strict mode now enabled');
+		o_settings.strictMode = true;
+	}
+	else {
+		API.sendChat('/me Strict mode now disabled');
+		o_settings.strictMode = false;
+	}
+}
+function f_set(data) {
+    var args = f_getArgs(data.message);
+    var setValue = args[1];
+    var s;
+	
+    if((setValue == 'true') || (setValue == 'false')){
+		s = 'o_settings.'+args[0]+' = '+setValue+';';
+	}
+	else { // we're dealing with strings
+        setValue = setValue.replace("'", "\\'");
+		s = 'o_settings.'+args[0]+' = \''+setValue+'\';';
+    }
+	eval(s);
+	API.sendChat('/me '+args[0]+' now '+eval('o_settings.'+args[0]));
+}
+
+function f_checkChat(data) {
+	//Parse all data not from bot's account, and check for commands. Then, check if
+       if((data.type == "message") && (data.fromID != API.getSelf().id) ) {
+                for(var s in o_chatcmds) {
+                        if(data.message.toString().indexOf(s) != -1) { 
+                                // finally, perm check
+                                if(o_chatcmds[s].needsPerm){
+									if(API.getUser(data.fromID).permission>1){
+									o_chatcmds[s].f(data);
+								}
+								else{
+									API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
+								}
+						}
+						else{
+						
+							o_chatcmds[s].f(data);
+                                }
+                               
+                        }
+                }
+               
+        }
+}
+    
+function f_getArgs(s) {
+    var a_s = s.split(' '); // [0] = <command>; [1-n] args
+    var s_real = '';
+    for(var i = 1; i < a_s.length; i++) {
+        s_real += ' ' + a_s[i];
+    }
+    
+    a_opts = s_real.split(';');
+    
+    return a_opts;
+    
+}
+
+function f_djAdvance(obj){
+	var i_timeRem = -1;
+	s_timeRem = jQuery('#time-remaining-value').text();
+	// wait on music to load & time to appear
+	while(s_timeRem == null){
+		s_timeRem = jQuery('#time-remaining-value').text();
+	}
+	a_timeRem = s_timeRem.toString().split(':');
+	i_timeRem = (parseInt(a_timeRem[0])*60) + parseInt(a_timeRem[1]);
+
+	// auto-skip code:
+	// clear previous timeout
+	window.clearTimeout(o_settings.i_timerID);
+	// if autoskip enabled & song over time limit
+	if(o_settings.autoSkip && (i_timeRem > (o_settings.maxSongLength)*60)){
+		//strict mode, skip immediately
+		if(o_settings.strictMode){
+			var o_djs = API.getDJs();
+		o_tmp.username = o_djs[0].username;
+		f_long();
+		}
+		else {
+		// normal mode (and if track length more than <maxSongLength>): set a timer for <maxSongLength> mins to skip the track
+			var o_djs = API.getDJs();
+			o_tmp.username = o_djs[0].username;
+			API.sendChat('@'+o_tmp.username+' [WARNING] Sorry, your song is over the allowed time limit and will be automagically skipped after '+o_settings.maxSongLength+' minutes.');
+			o_settings.i_timerID = window.setTimeout(o_settings.f_autoSkip, (o_settings.maxSongLength)*60*1000);
+		}
+	}
+
+	// auto-woot the track if enabled [BROKEN]
+	if(o_settings.autoWoot) {
+		jQuery("#button-vote-positive").click();
+	}
+
+
+	// autoqueue if enabled [BROKEN]
+	if(o_settings.b_autoQueue) {
+		if(jQuery('#button-dj-waitlist-join').css('display') != 'none') {
+		jQuery('#button-dj-waitlist-join').click();
+		}
+	}
+}
+function f_suidobashijuko(data){
+	API.sendChat("Why are we talking about the suidobashijuko again? Are you going to buy me one?");
+}
+function f_nospam(data){
+	API.sendChat("Hey, "+data.from+" ! Please do not adverise plug.dj rooms in here, thanks!");
+	API.moderateDeleteChat(data.chatID);
+}
 f_foxbotInit();
