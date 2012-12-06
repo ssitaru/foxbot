@@ -386,7 +386,7 @@ A. Nacho Cheese\
 Q. Why did the sheep say \"moo\"? \
 A. It was learning a new language!\
 ","\
-Q. What streets do ghosts haun? \
+Q. What streets do ghosts haunt? \
 A. Dead ends!\
 ","\
 Q. What is an astronaut's favorite place on a computer? \
@@ -935,8 +935,8 @@ function f_drink(data) {
 			API.sendChat("Shirley Temple? Here you go! Enjoy, "+data.from+" !");
 			break;
 		case "50aeb20fc3b97a2cb4c2d804":
-			API.sendChat("The Supreme Overlord wants cranberry juice! What are you doing? Yes, the Supreme Overlord. Yes, @"+data.from+"Hurry up. Get cranberry juice. Yes, now.");
-			window.setTimeout(function(){API.sendchat("Sorry for the wait Mr. Supreme Overlord, sir. *Hands @"+data.from+" a glass of cranberry juice.* There is more in the back if you need it, Mr. Supreme Overlord, sir.");},5000); 
+			API.sendChat("The Supreme Overlord wants cranberry juice! What are you doing? Yes, the Supreme Overlord. Yes, @"+data.from+" Hurry up. Get cranberry juice. Yes, now.");
+			API.sendchat("Sorry for the wait Mr. Supreme Overlord, sir. *Hands @"+data.from+" a glass of cranberry juice.* There is more in the back if you need it, Mr. Supreme Overlord, sir.");
 			break;
 		default:
 			API.sendChat('Here is your strong alcoholic beverage @'+data.from+' , enjoy!');
