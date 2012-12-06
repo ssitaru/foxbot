@@ -31,6 +31,7 @@
 //	Changelog Version 101.12.6_2.2
 //	-Updated /drink command with more custom messages
 //	-Edited default rules (5-8 min max > 8 minutes max)
+//	-Added max song lenght to /test
 ////////////////////////////////////////////////////////////////
 // 	Changelog Version 101.12.6_2.1
 // 	-Replaced original code on github with current versiom
@@ -951,7 +952,7 @@ function f_joke(data) {
     API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
-	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', AW: '+o_settings.autoWoot+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
+	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', MSL: '+o_settings.maxSongLength+', AW: '+o_settings.autoWoot+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
 	API.sendChat('/me Systems are online and functional! '+s);
 }
 function f_reload(data) {
