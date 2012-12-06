@@ -25,13 +25,17 @@
 ////////////////////////////////////////////////////////////////
 //	foxbot.js :: A robot that automates certain functions for
 //		plug.dj
-//	Version 101.12.6_2.1
+//	Version 101.12.6_2.2
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me
 ////////////////////////////////////////////////////////////////
-//  Changelog Version 101.12.6_2.1
-//  -Replaced original code on github with current versiom
-//  -Added Jokes
-//  -replaced reload command from '13920KILL' to '/kill'
+//	Changelog Version 101.12.6_2.2
+//	-Updated /drink command with more custom messages
+//	-Edited default rules (5-8 min max > 8 minutes max)
+////////////////////////////////////////////////////////////////
+// 	Changelog Version 101.12.6_2.1
+// 	-Replaced original code on github with current versiom
+// 	-Added Jokes
+// 	-replaced reload command from '13920KILL' to '/kill'
 ////////////////////////////////////////////////////////////////
 //	Changelog V.101.12.6.4.1
 //	-Fixed Permissions
@@ -93,7 +97,7 @@ var o_settings = {
     autoQueue: true,
     welcomeMsg: true,
     goodbyeMsg: false,
-    rules: 'Play EDM only, no Trap. 5-8 min max. Please show love and respect to everyone.',
+    rules: 'Play EDM only, no Trap. 8 minutes max. Please show love and respect to everyone.',
 	strictMode: false,
 	maxSongLength: 8, // in mins
 	i_timerID: null,
@@ -876,7 +880,7 @@ function f_rule(data) {
 	API.sendChat('/me Rules: '+o_settings.rules);
 }
 function f_about(data) {
-	API.sendChat('/me [foxbot v0.101.12.6.4.1] by 1NT, foxtrotfire, royal soda, [tw].me. Type in "/commands" to find out how to interact with me.');
+	API.sendChat('/me [foxbot v0.101.12.6.2.2] by 1NT, foxtrotfire, royal soda, [tw].me. Type in "/commands" to find out how to interact with me.');
 }
 function f_brb(data) {
 	API.sendChat('@'+data.from+' Hurry back!!');
@@ -921,6 +925,18 @@ function f_drink(data) {
 		case "50aeb3aa877b9217e2fc8036":
 			//CopyLeft
 			API.sendChat("Here is a bloody mary, with some actual blood from Mary... Please refrain from ordering a drink, @"+data.from+" , as we are running out of people named Mary...");
+			break;
+		case "50aeafe696fba52c3ca02f1b":
+			//Linear Logic
+			API.sendChat("Ah, Mr. @"+data.from+" ! Here's your mojito, good sir!");
+			break;
+		case "50aeb301c3b97a2cb4c2fa57":
+			//Mamushka
+			API.sendChat("Shirley Temple? Here you go! Enjoy, "+data.from+" !");
+			break;
+		case "50aeb20fc3b97a2cb4c2d804":
+			API.sendChat("The Supreme Overlord wants cranberry juice! What are you doing? Yes, the Supreme Overlord. Yes, @"+data.from+"Hurry up. Get cranberry juice. Yes, now.");
+			window.setTimeout(function(){API.sendchat("Sorry for the wait Mr. Supreme Overlord, sir. *Hands @"+data.from+" a glass of cranberry juice.* There is more in the back if you need it, Mr. Supreme Overlord, sir.");},5000); 
 			break;
 		default:
 			API.sendChat('Here is your strong alcoholic beverage @'+data.from+' , enjoy!');
