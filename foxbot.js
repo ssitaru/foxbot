@@ -31,7 +31,7 @@
 //	Changelog Version 101.12.6_2.2
 //	-Updated /drink command with more custom messages
 //	-Edited default rules (5-8 min max > 8 minutes max)
-//	-Added max song lenght to /test
+//	-Added max song length to /test
 ////////////////////////////////////////////////////////////////
 // 	Changelog Version 101.12.6_2.1
 // 	-Replaced original code on github with current versiom
@@ -936,8 +936,17 @@ function f_drink(data) {
 			API.sendChat("Shirley Temple? Here you go! Enjoy, "+data.from+" !");
 			break;
 		case "50aeb20fc3b97a2cb4c2d804":
+			//Bass Addict
 			API.sendChat("The Supreme Overlord wants cranberry juice! What are you doing? Yes, the Supreme Overlord. Yes, @"+data.from+" Hurry up. Get cranberry juice. Yes, now.");
 			API.sendchat("Sorry for the wait Mr. Supreme Overlord, sir. *Hands @"+data.from+" a glass of cranberry juice.* There is more in the back if you need it, Mr. Supreme Overlord, sir.");
+			break;
+		case "50bd6f1596fba554c159e1ab":
+			//[tw].me
+			API.sendChat("Hahaha @"+data.from+", get back to work, no drink for you!");
+			break;
+		case "50aeb02ad6e4a94f77474299":
+			//[F]oxtrot[Q]ontrol
+			API.sendChat("Here's a beer @"+data.from+", for myself :D");
 			break;
 		default:
 			API.sendChat('Here is your strong alcoholic beverage @'+data.from+' , enjoy!');
