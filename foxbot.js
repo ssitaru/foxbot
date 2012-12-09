@@ -946,7 +946,7 @@ function f_drink(data) {
 			break;
 		case "50aeb02ad6e4a94f77474299":
 			//[F]oxtrot[Q]ontrol
-			API.sendChat("Here's a crate of beer @"+data.from+", Enjoy!");
+			API.sendChat("Here's your Rum @"+data.from+", Yarr matey!");
 			break;
 		case "50bfaa69c3b97a770bf85bbc":
 			//97#DJMnC#79
