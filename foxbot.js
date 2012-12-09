@@ -948,6 +948,10 @@ function f_drink(data) {
 			//[F]oxtrot[Q]ontrol
 			API.sendChat("Here's a crate of beer @"+data.from+", Enjoy!");
 			break;
+		case "50bfaa69c3b97a770bf85bbc":
+			//97#DJMnC#79
+			API.sendChat("Here's your pepsi @"+data.from+", Enjoy!");
+			break;
 		default:
 			API.sendChat('Here is your strong alcoholic beverage @'+data.from+' , enjoy!');
 	}
