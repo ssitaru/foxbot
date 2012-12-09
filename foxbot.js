@@ -950,7 +950,7 @@ function f_drink(data) {
 			break;
 		case "50bfaa69c3b97a770bf85bbc":
 			//97#DJMnC#79
-			API.sendChat("Here's your pepsi @"+data.from+", Enjoy!");
+			API.sendChat("Here's your Coca Cola @"+data.from+", Enjoy!");
 			break;
 		default:
 			API.sendChat('Here is your strong alcoholic beverage @'+data.from+' , enjoy!');
