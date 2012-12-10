@@ -9,6 +9,11 @@
 //	Version 101.12.6.4.2
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me
 ////////////////////////////////////////////////////////////////
+//	Changelog v. 101.12.10.2.1
+//	-Added 2 jokes
+//	-Added super's custom drink
+//	-Edited Init Message
+////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.10.4.1
 //	-Fixed setting time limit from chat (101.12.6.4.1)
 //	-Added a spam filter that -doesn't work- actually works
@@ -54,7 +59,7 @@ var o_settings = {
 var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = false;
-var cur_Vers="101.12.10.4.2";
+var cur_Vers="101.12.10.2.1";
 
 var o_chatcmds = {
 	/////////////////////////////////////////////
@@ -709,6 +714,12 @@ A. The month of March!\
 Q. What did the painter say to the wall? \
 A. One more crack like that and I'll plaster you!\
 ","\
+Q. What do you call a mexican rolling in the sand? \
+A. A Churro!\
+","\
+Q. Whats similar about jimmie saville and santa claus?  \
+A. They both leave kids rooms with empty sacks o_o \
+","\
 Q. Why do golfers wear two pairs of pants? \
 A. In case they get a hole in one!\
 ","\
@@ -940,8 +951,12 @@ function f_drink(data) {
 			//97#DJMnC#79
 			API.sendChat("Here's your Coca Cola @"+data.from+", Enjoy!");
 			break;
+		case "50aeb11a96fba52c3ca0699e":
+			//super
+			API.sendChat("Here's your Absinthe Frappé @"+data.from+", Enjoy good sir!");
+			break;
 		default:
-			API.sendChat('Here is your strong alcoholic beverage @'+data.from+' , enjoy!');
+			API.sendChat('Here is your generic strong alcoholic beverage @'+data.from+' , enjoy!');
 	}
 }
 function f_whymeh(data) {
