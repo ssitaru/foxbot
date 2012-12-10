@@ -1,16 +1,14 @@
-var o_settings = {
-	Parser: false
-};
+var Activated = 0;
 
 var o_chaincmds = {
-    '/chainload': {
+    '/activate': {
   	f: f_load,
 		needsPerm: true,
 	}
 };
 
 function f_chainloadInit() {
-API.sendChat('/me foxbot chainloader waiting for activation!');
+API.sendChat('/me foxbot waiting for activation!');
 API.addEventListener(API.CHAT, f_chainChat);
 } 
 function f_chainChat(data) {
@@ -19,11 +17,11 @@ function f_chainChat(data) {
 			if(data.message.toString().indexOf(s) != -1) { 
 				if(o_chaincmds[s].needsPerm){
 					if(API.getUser(data.fromID).permission.toString()>1){
-						if(o_settings.Parser){
+						if(Activated != 1){
 							o_chaincmds[s].f(data);
 						}
 						else{
-							API.sendChat('/me Bot already loaded!');
+							API.sendChat('/me Bot already active!');
 						}
 					}
 					else{
@@ -36,7 +34,7 @@ function f_chainChat(data) {
 }
 
 function f_load(data){
-var o_settings.Parser = false;
+var Activated = 1;
 var scriptTag = document.createElement('script');
 scriptTag.type = 'text/javascript';
 scriptTag.src = 'https://raw.github.com/foxtrotfire/foxbot/master/foxbot.js';
