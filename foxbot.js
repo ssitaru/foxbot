@@ -721,7 +721,7 @@ A. A pair of slippers.\
 
 //Begin Function Declarations
 function f_foxbotInit() {
-	window.setTimeout(function(){API.sendChat('/me This user is now running foxbot!');}, 5000);
+	API.sendChat('/me This user is now running foxbot!');
 	b_hasModRights = API.getSelf().permission.toString()>1;
 	// now all the event listeners
 	API.addEventListener(API.USER_JOIN, join);
