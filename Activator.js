@@ -1,4 +1,3 @@
-var inactive = true;
 var o_chaincmds = {
     '/activate': {
 	needsPerm: true,
@@ -14,8 +13,8 @@ function f_chainChat(data) {
 		for(var s in o_chaincmds)  {
 			if(data.message.toString().indexOf(s) != -1) { 
 				if(API.getUser(data.fromID).permission.toString()>1){
-					if(inactive){
-						var inactive = false;
+					if(activated){
+						var activated = true;
 						var scriptTag = document.createElement('script');
 						scriptTag.type = 'text/javascript';
 						scriptTag.src = 'https://raw.github.com/foxtrotfire/foxbot/master/foxbot.js';
