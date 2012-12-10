@@ -20,7 +20,7 @@ function f_chainChat(data) {
 						scriptTag.type = 'text/javascript';
 						scriptTag.src = 'https://raw.github.com/foxtrotfire/foxbot/master/foxbot.js';
 						document.body.appendChild(scriptTag);
-						Activated = 0;
+						Activated = 1;
 					}
 					else{
 						API.sendChat('/me Bot already active!');
