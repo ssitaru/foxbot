@@ -1,3 +1,6 @@
+var o_settings = { 
+	Parser: true
+};
 var o_chatcmds = {
     '/chainload': {
   	f: f_load,
@@ -10,7 +13,7 @@ API.addEventListener(API.CHAT, f_chainChat);
 } 
 function f_chainChat(data) {
 //Will work on this. It's kind of annoying as it stands and doesn't allow for cool stuff
-	if((data.type == "message") && (data.fromID != API.getSelf().id) ) {
+	if((data.type == "message") && (o_settings.Parser) {
 		for(var s in o_chatcmds) {
 			if(data.message.toString().indexOf(s) != -1) { 
 				if(o_chatcmds[s].needsPerm){
@@ -31,6 +34,7 @@ function f_chainChat(data) {
 	
 }
 function f_load(data){
+var o_settings.Parser = false;
 var scriptTag = document.createElement('script');
 scriptTag.type = 'text/javascript';
 scriptTag.src = 'https://raw.github.com/foxtrotfire/foxbot/master/foxbot.js';
