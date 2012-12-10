@@ -13,7 +13,7 @@ API.addEventListener(API.CHAT, f_chainChat);
 } 
 function f_chainChat(data) {
 //Will work on this. It's kind of annoying as it stands and doesn't allow for cool stuff
-	if((data.type == "message") && (o_settings.Parser) {
+	if((data.type == "message") && (o_settings.Parser) ){
 		for(var s in o_chatcmds) {
 			if(data.message.toString().indexOf(s) != -1) { 
 				if(o_chatcmds[s].needsPerm){
