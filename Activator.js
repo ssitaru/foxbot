@@ -1,5 +1,3 @@
-var Activated = 0;
-
 var o_chaincmds = {
     '/activate': {
   	f: f_load,
