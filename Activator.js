@@ -1,3 +1,4 @@
+var Activated = false;
 var o_chaincmds = {
     '/activate': {
 	needsPerm: true,
@@ -5,7 +6,6 @@ var o_chaincmds = {
 };
 
 function f_chainloadInit() {
-var Activated = false;
 API.sendChat('/me Foxbot waiting for activation!');
 API.addEventListener(API.CHAT, f_chainChat);
 } 
@@ -14,7 +14,7 @@ function f_chainChat(data) {
 		for(var s in o_chaincmds)  {
 			if(data.message.toString().indexOf(s) != -1) { 
 				if(API.getUser(data.fromID).permission.toString()>1){
-					if(Activated != false){
+					if(Activated != true){
 						var Activated = true;
 						var scriptTag = document.createElement('script');
 						scriptTag.type = 'text/javascript';
