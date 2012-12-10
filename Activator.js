@@ -1,4 +1,6 @@
-var Parser = false;
+var o_settings = {
+	Parser: false
+};
 
 var o_chaincmds = {
     '/chainload': {
@@ -17,7 +19,7 @@ function f_chainChat(data) {
 			if(data.message.toString().indexOf(s) != -1) { 
 				if(o_chaincmds[s].needsPerm){
 					if(API.getUser(data.fromID).permission.toString()>1){
-						if(Parser){
+						if(o_settings.Parser){
 							o_chaincmds[s].f(data);
 						}
 						else{
@@ -34,7 +36,7 @@ function f_chainChat(data) {
 }
 
 function f_load(data){
-var Parser = false;
+var o_settings.Parser = false;
 var scriptTag = document.createElement('script');
 scriptTag.type = 'text/javascript';
 scriptTag.src = 'https://raw.github.com/foxtrotfire/foxbot/master/foxbot.js';
