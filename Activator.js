@@ -6,9 +6,9 @@ var o_chatcmds = {
 };
 function f_chainloadInit() {
 API.sendChat('/me foxbot chainloader waiting for activation!');
-API.addEventListener(API.CHAT, f_checkChat);
+API.addEventListener(API.CHAT, f_chainChat);
 } 
-function f_checkChat(data) {
+function f_chainChat(data) {
 //Will work on this. It's kind of annoying as it stands and doesn't allow for cool stuff
 	if((data.type == "message") && (data.fromID != API.getSelf().id) ) {
 		for(var s in o_chatcmds) {
