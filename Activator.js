@@ -1,4 +1,4 @@
-var inactive = true; 
+var inactive = 1; 
 
 var o_chaincmds = {
     '/activate': {
@@ -15,12 +15,12 @@ function f_chainChat(data) {
 		for(var s in o_chaincmds)  {
 			if(data.message.toString().indexOf(s) != -1) { 
 				if(API.getUser(data.fromID).permission.toString()>1){
-					if(inactive){
+					if(inactive != 0){
 						var scriptTag = document.createElement('script');
 						scriptTag.type = 'text/javascript';
 						scriptTag.src = 'https://raw.github.com/foxtrotfire/foxbot/master/foxbot.js';
 						document.body.appendChild(scriptTag);
-						var inactive = false;
+						var inactive = 0;
 					}
 					else{
 						API.sendChat('/me Bot already active!');
