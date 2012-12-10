@@ -33,7 +33,7 @@ function f_chainChat(data) {
 function f_load(data){
 var scriptTag = document.createElement('script');
 scriptTag.type = 'text/javascript';
-scriptTag.src = 'https://raw.github.com/ssitaru/foxbot/master/foxbot.js';
+scriptTag.src = 'https://raw.github.com/foxtrotfire/foxbot/master/foxbot.js';
 document.body.appendChild(scriptTag);
 }
 window.setTimeout(function(){f_chainloadInit();},10000);
