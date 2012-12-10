@@ -1,95 +1,42 @@
-////////////////////////////////////////////////////////////////ni
 ////////////////////////////////////////////////////////////////
-// IF YOU ARE EDITING THIS SCRIPT. PLEASE FOLLOW PROPER
-// PROGRAMMING CONVENTION AND MAKE YOUR CODE READABLE.
-//
-// REMEMBER: WE ARE HUMANS EDITING CODE. NOT ROBOTS. WHITESPACE
-// IN THE PROPER POSITION CAN GREATLY DECREASE THE TIME IT TAKES
-// AMOUNT OF TIME IT TAKES TO MAKE CODE EDITS.
-//
-// THE CODE IS BEING EDITED TO REFLECT THE AFOREMENTIONED
-// STANDARDS. IF YOU ARE NOT FAMILIAR WITH THEM, PLEASE DO NOT
-// HESITATE TO CONTACT ME.
-//
-// ALSO, SINCE WE ARE NOT GOING TO PASS JSLINT ANYWAY, THE
-// JSLINT TESTS ANYWAYS, I AM REMOVING BOTH OF THOSE LINES --
-// THE LINE UNDER GLOBAL SEEMS TO BE FOR JSLINT.
-// 
-//     				THANK YOU,
-//						[tw].me
-////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
+//	ATTENTION ALL DEVS. PLEASE READ THE BELOW MESSAGE. THANKS!
+//[http://www.mixolydianmuse.com/plug.dj/add-ons/foxbot/message]
+////////////////////////////////////////////////////////////
 
-
-////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 //	foxbot.js :: A robot that automates certain functions for
 //		plug.dj
-//	Version 101.12.6_2.2
+//	Version 101.12.6.4.2
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me
 ////////////////////////////////////////////////////////////////
-//	Changelog Version 101.12.6_2.2
-//	-Updated /drink command with more custom messages
-//	-Edited default rules (5-8 min max > 8 minutes max)
-//	-Added max song length to /test
-////////////////////////////////////////////////////////////////
-// 	Changelog Version 101.12.6_2.1
-// 	-Replaced original code on github with current versiom
-// 	-Added Jokes
-// 	-replaced reload command from '13920KILL' to '/kill'
-////////////////////////////////////////////////////////////////
-//	Changelog V.101.12.6.4.1
-//	-Fixed Permissions
-//		-For the curious: Mod means permission>1, or at lesat
-//		 bouncer
-//	-Revamped the little information thing that used to be here
-//	 with the thing above the changelog
-//	-Added a changelog 
-//	-Added Version numbers. Here's how they work:
-//		-Year.Month.Day.ID.EditNumber
-//			-Taiwan years
-//				-2012==101
-//				-Calculate from 2012
-//			-ID is your ID.
-//				-1NT==1
-//				-FoxtrotFire==2
-//				-Royal Soda==3
-//				-[tw].me==4
-//			-If today is your first edit, EditNumber==1.
-//				-Increases by one for each edit thereafter.
-// 	-Code Slightly Reorganized For Better Readability
-//		-Commands sorted in alphanumerical order by permission
-//		 group (punctuation->0-9->a-z->A-Z). Organized by chmod
-//		 permissions.
-//	-Added letter from me to you at the top (will remove in next
-//	 update). If you edit this code, PLEASE READ.
-//	-Revamped Command Object
-//		-Added a REQUIRED visibility characteristic on ALL
-//		 commands in o_chatcmds
-//			-THIS IS REQUIRED. JAVASCRIPT DOES WEIRD THINGS IF
-//			 IT DOESN'T EXIST
-//			-It makes it visible when you type in "/commands"
-//				-true=>Show
-//				-false=>hide
-//	-Modified f_commands
-//		-Parses visibility instead of explicit exception list.
-//	-Fixed b_hasModRights
-//		-Only useful for /test but I kept it anyway. Checks if
-//		 bot has mod rights. MIGHT edit the bot to silently
-//		 change output depending on it
-//			-i.e. /skip doesn't show up if bot can't skip
-//	-Rewrote the about to be less of an explanation and more of
-//	 what you would expect if you looked at the help|about of a
-//	 program on your computer.
-//	-Changed the response to "BRB" to something that makes more
-//	 sense to me.
-//	-Only mods can 13920KILL
-//	-Changed some comments
-//	-Added a few easter eggs
-//	-Removed code that seemed to be built for JSLint parsing
-////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
+//	Changelog v. 101.12.10.4.1
+//	-Fixed setting time limit from chat (101.12.6.4.1)
+//	-Added a spam filter that -doesn't work- actually works
+//	 (101.12.6.4.1)
+//		-They fixed part of the API!!!!!
+//	-Added a few more easter eggs
+//	-Welcome AND part messages now exist
+//		-Part only exists for staff (including featured DJ)
+//	-Added a current version global variable (type str)
+//		-PLEASE update when you change code. Effects /about
+//	-Edited formatting on announces and part messages
+//	-Fixed two skipping errors
+//		- parseInt("09") becomes 0. So 09 minutes becomes 0.
+//			-Removed parseInt entirely, and just did "09"*60.
+//			-Same thing with seconds. seconds*1
+//		-Skips if longer than an hour
+//	-Added a /fb that sends a link to our FB
 
+//	-Changelogs now archived at
+//[http:/www.mixolydianmuse.com/plug.dj/add-ons/foxbot/changelog]
+//		-Sorry for breaking formatting (only for the links)
+//		-Only include changelog for MOST RECENT VERSION
+//	-Edited my message and put here
+//[http://www.mixolydianmuse.com/plug.dj/add-ons/foxbot/message]
+////////////////////////////////////////////////////////////////
+// Old changelogs
+//[http:/www.mixolydianmuse.com/plug.dj/add-ons/foxbot/changelog]
+////////////////////////////////////////////////////////////////
 
 //Begin Variable Declarations
 var o_settings = {
@@ -98,15 +45,16 @@ var o_settings = {
     autoQueue: true,
     welcomeMsg: true,
     goodbyeMsg: false,
-    rules: 'Play EDM only, no Trap. 8 minutes max. Please show love and respect to everyone.',
+	maxSongLength: 8, // in mins.
+    rules: 'Play EDM only, no Trap. 8 min max. Please show love and respect to everyone.',
 	strictMode: false,
-	maxSongLength: 8, // in mins
 	i_timerID: null,
 	f_autoSkip: f_long
 };
 var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = false;
+var cur_Vers="101.12.10.4.2";
 
 var o_chatcmds = {
 	/////////////////////////////////////////////
@@ -137,6 +85,11 @@ var o_chatcmds = {
 		needsPerm: false,
 		visible: true
 	},
+	'/fb': {
+		f: f_fb,
+		needsPerm: false,
+		visible: true
+	},
 	'/joke': {
 		f: f_joke,
 		needsPerm: false,
@@ -160,7 +113,7 @@ var o_chatcmds = {
 	'rapes foxbot': {
 		f: f_rape,
 		needsPerm: false,
-		visible: true
+			visible: true
 	},
 	/////////////////////////////////////////////
 	// chmod 554
@@ -387,7 +340,7 @@ A. Nacho Cheese\
 Q. Why did the sheep say \"moo\"? \
 A. It was learning a new language!\
 ","\
-Q. What streets do ghosts haunt? \
+Q. What streets do ghosts haun? \
 A. Dead ends!\
 ","\
 Q. What is an astronaut's favorite place on a computer? \
@@ -769,27 +722,42 @@ A. A pair of slippers.\
 //Begin Function Declarations
 function f_foxbotInit() {
 	window.setTimeout(function(){API.sendChat('/me This user is now running foxbot!');}, 5000);
-	b_hasModRights = API.getSelf().permission>1;
+	b_hasModRights = API.getSelf().permission.toString()>1;
 	// now all the event listeners
 	API.addEventListener(API.USER_JOIN, join);
-	/*API.addEventListener(API.USER_LEAVE, leave);*/
+	API.addEventListener(API.USER_LEAVE, leave);
 	API.addEventListener("curateUpdate", f_curate);
 	API.addEventListener(API.CHAT, f_checkChat);
 	API.addEventListener(API.DJ_ADVANCE, f_djAdvance);
 	// mute the player
 	Playback.setVolume(0);
 }
-function join(user)
-{
-    API.sendChat("/me Welcome @" + user.username + " to " + Models.room.data.name + ". Thank you for plugging in!");
-	//window.setTimeout(function(){f_rule({from: user.username});}, 1000);
+function join(user){
+	if(user.id=="50aeb20fc3b97a2cb4c2d804"){
+		API.sendChat("/me :: All hail our Extreme Overlord, @"+user.username+" ! Welcome back master!");
+	}
+	else if(user.permission.toString()>1){
+		API.sendChat("/me :: A wild moderator appears! Wait, no. We know this one. The moderator's name is "+user.username+" . Well, that was anticlimactic. Now back to regular programming");
+	}
+	else{
+		API.sendChat("/me :: Welcome @" + user.username + " to " + Models.room.data.name + ". Thank you for plugging in!");
+		//window.setTimeout(function(){f_rule({from: user.username});}, 1000); //Uncomment to send rules
+	}
 }
 
-/*
+
 function leave(user){
-	API.sendChat("/me " + user.username + " left the room. =( ");
+	if(user.id=="50aeb20fc3b97a2cb4c2d804"){
+		API.sendChat("/me :: All hail our Extreme Overlord, @"+user.username+" ! Thank you for gracing us with your presence!");
+	}
+	else if(user.permission.toString()>1){
+		API.sendChat("/me :: Bye bye, Mr. Moderator, sir! Bye @"+user.username+" !");
+	}
+	else if(user.permission.toString()==1){
+		API.sendChat("/me :: [Featured DJ]"+user.username+" has left the room");
+	}
 }
-*/
+
 
 function f_curate(data){
 	API.sendChat("/me " + data.user.username + " loves this track!");
@@ -881,7 +849,7 @@ function f_rule(data) {
 	API.sendChat('/me Rules: '+o_settings.rules);
 }
 function f_about(data) {
-	API.sendChat('/me [foxbot v0.101.12.6.2.2] by 1NT, foxtrotfire, royal soda, [tw].me. Type in "/commands" to find out how to interact with me.');
+	API.sendChat('/me [foxbot v'+cur_Vers+'] by 1NT, foxtrotfire, royal soda, [tw].me. Type in "/commands" to find out how to interact with me.');
 }
 function f_brb(data) {
 	API.sendChat('@'+data.from+' Hurry back!!');
@@ -935,14 +903,34 @@ function f_drink(data) {
 			//Mamushka
 			API.sendChat("Shirley Temple? Here you go! Enjoy, "+data.from+" !");
 			break;
+		case "50aeb310d6e4a94f7747a527":
+			//Wobbles
+			API.sendChat("Here's your Apple Martini, Mr @"+data.from+" . Enjoy!");
+			break;
+		case "50aeb402877b9217e2fc8dcf":
+			//Syvel
+			API.sendChat("And a Dunkel Hefeweizen for @"+data.from+" !");
+			break;
+		case "50aeb3fd877b9217e2fc8d13":
+			//DJ MC Wheelchair
+			API.sendChat("Here's your bottle of Jack, "+data.from+" . When you leave for the night, remember to come back!");
+			break;
 		case "50aeb20fc3b97a2cb4c2d804":
-			//Bass Addict
-			API.sendChat("The Supreme Overlord wants cranberry juice! What are you doing? Yes, the Supreme Overlord. Yes, @"+data.from+" Hurry up. Get cranberry juice. Yes, now.");
+			// Bass Addict
+			API.sendChat("The Supreme Overlord wants cranberry juice! What are you doing? Yes, the Supreme Overlord. Yes, @"+data.from+"Hurry up. Get cranberry juice. Yes, now.");
 			API.sendchat("Sorry for the wait Mr. Supreme Overlord, sir. *Hands @"+data.from+" a glass of cranberry juice.* There is more in the back if you need it, Mr. Supreme Overlord, sir.");
+			break;
+		case "50c22bc9877b92490a396b28":
+			//Acidus. He gets a special one because he helped with the code. No, he did not get full code. Just one tiny snippet.
+			API.sendChat("Here is your bottle of Valmiermuiza, "+data.from+" . You get a lifetime supply, on the house. So feel free to grab another!");
 			break;
 		case "50bd6f1596fba554c159e1ab":
 			//[tw].me
 			API.sendChat("Hahaha @"+data.from+", get back to work! No drink for you!");
+			break;
+		case "50aeb04ac3b97a2cb4c29c3c":
+			//[tw]Mixolydian Muse
+			API.sendChat("Your usual? Here's your Gold Medal Taiwan Beer, "+data.from+" !");
 			break;
 		case "50aeb02ad6e4a94f77474299":
 			//[F]oxtrot[Q]ontrol
@@ -965,7 +953,7 @@ function f_joke(data) {
     API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
-	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', MSL: '+o_settings.maxSongLength+', AW: '+o_settings.autoWoot+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
+	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', AW: '+o_settings.autoWoot+', MSL: '+o_settings.maxSongLength+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
 	API.sendChat('/me Systems are online and functional! '+s);
 }
 function f_reload(data) {
@@ -1002,28 +990,26 @@ function f_set(data) {
 }
 
 function f_checkChat(data) {
-	//Parse all data not from bot's account, and check for commands. Then, check if
-       if((data.type == "message") && (data.fromID != API.getSelf().id) ) {
-                for(var s in o_chatcmds) {
-                        if(data.message.toString().indexOf(s) != -1) { 
-                                // finally, perm check
-                                if(o_chatcmds[s].needsPerm){
-									if(API.getUser(data.fromID).permission>1){
-									o_chatcmds[s].f(data);
-								}
-								else{
-									API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
-								}
-						}
-						else{
-						
-							o_chatcmds[s].f(data);
-                                }
-                               
-                        }
-                }
-               
-        }
+//Will work on this. It's kind of annoying as it stands and doesn't allow for cool stuff
+	if((data.type == "message") && (data.fromID != API.getSelf().id) ) {
+		for(var s in o_chatcmds) {
+			if(data.message.toString().indexOf(s) != -1) { 
+				if(o_chatcmds[s].needsPerm){
+					if(API.getUser(data.fromID).permission.toString()>1){
+						o_chatcmds[s].f(data);
+					}
+					else{
+						API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
+					}
+				}
+				else{
+					o_chatcmds[s].f(data);
+				}
+						   
+			}
+		}
+	}
+	
 }
     
 function f_getArgs(s) {
@@ -1047,13 +1033,15 @@ function f_djAdvance(obj){
 		s_timeRem = jQuery('#time-remaining-value').text();
 	}
 	a_timeRem = s_timeRem.toString().split(':');
-	i_timeRem = (parseInt(a_timeRem[0])*60) + parseInt(a_timeRem[1]);
-
+	if (a_timeRem.length<3){
+	//some redundancies added because JS and typecasting randomly broke
+		i_timeRem = parseInt(a_timeRem[0]*60) + parseInt(a_timeRem[1]*1);
+	}
 	// auto-skip code:
 	// clear previous timeout
 	window.clearTimeout(o_settings.i_timerID);
 	// if autoskip enabled & song over time limit
-	if(o_settings.autoSkip && (i_timeRem > (o_settings.maxSongLength)*60)){
+	if(o_settings.autoSkip && ((i_timeRem > (o_settings.maxSongLength)*60)|| (a_timeRem.length>2))){
 		//strict mode, skip immediately
 		if(o_settings.strictMode){
 			var o_djs = API.getDJs();
@@ -1088,5 +1076,8 @@ function f_suidobashijuko(data){
 function f_nospam(data){
 	API.sendChat("Hey, "+data.from+" ! Please do not adverise plug.dj rooms in here, thanks!");
 	API.moderateDeleteChat(data.chatID);
+}
+function f_fb(data){
+	API.sendChat("Hey, "+data.from+" , our fb page is located at: http://goo.gl/vpHWz");
 }
 f_foxbotInit();
