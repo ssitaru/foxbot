@@ -1,3 +1,5 @@
+var Activated = 0;
+
 var o_chaincmds = {
     '/activate': {
   	f: f_load,
@@ -32,11 +34,11 @@ function f_chainChat(data) {
 }
 
 function f_load(data){
-var Activated = 1;
 var scriptTag = document.createElement('script');
 scriptTag.type = 'text/javascript';
 scriptTag.src = 'https://raw.github.com/foxtrotfire/foxbot/master/foxbot.js';
 document.body.appendChild(scriptTag);
+var Activated = 1;
 }
 
 window.setTimeout(function(){f_chainloadInit();},10000);
