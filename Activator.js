@@ -1,6 +1,9 @@
 var Activated = 0;
 var o_chatcmds = {
-    '/chainload'
+    '/chainload': {
+  	f: f_load,
+		needsPerm: true,
+	}
 };
 
 function f_chainloadInit() {
