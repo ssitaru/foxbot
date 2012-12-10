@@ -23,7 +23,7 @@ function f_chainChat(data) {
 						Activated = 1;
 					}
 					else{
-						API.sendChat('/me Bot already active!');
+						API.sendChat('/me Bot already activated!');
 					}
 				}
 				else{
