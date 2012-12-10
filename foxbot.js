@@ -44,7 +44,7 @@ var o_settings = {
     autoWoot: true,
     autoQueue: true,
     welcomeMsg: true,
-    goodbyeMsg: false,
+    goodbyeMsg: true,
 	maxSongLength: 8, // in mins.
     rules: 'Play EDM only, no Trap. 8 min max. Please show love and respect to everyone.',
 	strictMode: false,
