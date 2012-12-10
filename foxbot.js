@@ -340,7 +340,7 @@ A. Nacho Cheese\
 Q. Why did the sheep say \"moo\"? \
 A. It was learning a new language!\
 ","\
-Q. What streets do ghosts haun? \
+Q. What streets do ghosts haunt? \
 A. Dead ends!\
 ","\
 Q. What is an astronaut's favorite place on a computer? \
@@ -953,7 +953,7 @@ function f_joke(data) {
     API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
-	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', AW: '+o_settings.autoWoot+', MSL: '+o_settings.maxSongLength+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
+	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', MSL: '+o_settings.maxSongLength+', AW: '+o_settings.autoWoot+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
 	API.sendChat('/me Systems are online and functional! '+s);
 }
 function f_reload(data) {
