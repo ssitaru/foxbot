@@ -1,7 +1,7 @@
 var Activated = 0;
 
 function f_chainloadInit() {
-API.sendChat('/me foxbot waiting for activation!');
+API.sendChat('/me Foxbot waiting for activation!');
 API.addEventListener(API.CHAT, f_chainChat);
 } 
 function f_chainChat(data) {
