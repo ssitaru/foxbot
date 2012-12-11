@@ -15,6 +15,7 @@
 //	-Edited Init Message
 //	-Added profanityfilter (default off, use /set profanityfilter;true to turn on)
 //	-Edited facebook message
+//	-Added banned list
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.10.4.1
 //	-Fixed setting time limit from chat (101.12.6.4.1)
@@ -110,6 +111,11 @@ var o_chatcmds = {
 	},
 	'/whymeh': {
 		f: f_whymeh,
+		needsPerm: false,
+		visible: true
+	},
+	'/banned': {
+		f: f_bannedlist,
 		needsPerm: false,
 		visible: true
 	},
@@ -1172,5 +1178,8 @@ function f_profanity(data){
 }
 function f_fb(data){
 	API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook page at http://goo.gl/vpHWz !");
+}
+function f_bannedlist(data){
+	API.sendChat("/me Click the following link to see the list of songs that are banned: http://goo.gl/9tLE7")
 }
 window.setTimeout(function(){f_foxbotInit();},5000);
