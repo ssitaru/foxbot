@@ -14,6 +14,7 @@
 //	-Added super's and Kendall's custom drink
 //	-Edited Init Message
 //	-Added profanityfilter (default off, use /set profanityfilter;true to turn on)
+//	-Edited facebook message
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.10.4.1
 //	-Fixed setting time limit from chat (101.12.6.4.1)
@@ -1170,6 +1171,6 @@ function f_profanity(data){
 	} 
 }
 function f_fb(data){
-	API.sendChat("Hey, "+data.from+" , our fb page is located at: http://goo.gl/vpHWz");
+	API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook page at http://goo.gl/vpHWz !");
 }
 f_foxbotInit();
