@@ -21,6 +21,7 @@ function f_chainChat(data) {
 						scriptTag.src = 'https://raw.github.com/foxtrotfire/foxbot/master/foxbot.js';
 						document.body.appendChild(scriptTag);
 						Activated = 1;
+						API.sendChat("Activating!");
 					}
 					else{
 						API.sendChat('/me Bot already activated!');
