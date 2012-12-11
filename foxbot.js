@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.10.2.1
 //	-Added 2 jokes
-//	-Added super's custom drink
+//	-Added super's and Kendall's custom drink
 //	-Edited Init Message
 //	-Added profanityfilter (default off, use /set profanityfilter;true to turn on)
 ////////////////////////////////////////////////////////////////
@@ -1021,6 +1021,10 @@ function f_drink(data) {
 		case "50aeb11a96fba52c3ca0699e":
 			//super
 			API.sendChat("Here's your Absinthe Frappé @"+data.from+", Enjoy good sir!");
+			break;
+		case "50aeae9bc3b97a2cb4c25954":
+			//Kendall
+			API.sendChat("Here's your water @"+data.from+", Enjoy!");
 			break;
 		default:
 			API.sendChat('Here is your generic strong alcoholic beverage @'+data.from+' , enjoy!');
