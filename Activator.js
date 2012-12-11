@@ -34,4 +34,4 @@ function f_chainChat(data) {
 	}
 }
 
-window.setTimeout(function(){f_chainloadInit();},10000);
+window.setTimeout(function(){f_chainloadInit();},5000);
