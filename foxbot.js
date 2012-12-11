@@ -1173,4 +1173,4 @@ function f_profanity(data){
 function f_fb(data){
 	API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook page at http://goo.gl/vpHWz !");
 }
-f_foxbotInit();
+window.setTimeout(function(){f_foxbotInit();},5000);
