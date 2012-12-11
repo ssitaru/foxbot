@@ -13,6 +13,7 @@
 //	-Added 2 jokes
 //	-Added super's custom drink
 //	-Edited Init Message
+//	-Added profanityfilter (default off, use /set profanityfilter;true to turn on)
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.10.4.1
 //	-Fixed setting time limit from chat (101.12.6.4.1)
@@ -50,6 +51,7 @@ var o_settings = {
     autoQueue: true,
     welcomeMsg: true,
     goodbyeMsg: true,
+	profanityfilter: false,
 	maxSongLength: 8, // in mins.
     rules: 'Play EDM only, no Trap. 8 min max. Please show love and respect to everyone.',
 	strictMode: false,
@@ -224,7 +226,72 @@ var o_chatcmds = {
 		f: f_suidobashijuko,
 		needsPerm: false,
 		visible: false
-	}, 
+	},
+	'fuck': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'Fuck': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'FUck': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'FUCk': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'FUCK': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'FuCk': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'FucK': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'fUck': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'fuCk': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'fucK': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'fUCk': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'fUcK': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'fuCK': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
 	////////////////////////////////////////////
 	// chmod 110
 	////////////////////////////////////////////
@@ -1089,8 +1156,14 @@ function f_suidobashijuko(data){
 	API.sendChat("Why are we talking about the suidobashijuko again? Are you going to buy me one?");
 }
 function f_nospam(data){
-	API.sendChat("Hey, "+data.from+" ! Please do not adverise plug.dj rooms in here, thanks!");
+	API.sendChat("Hey, @"+data.from+" ! Please do not adverise plug.dj rooms in here, thanks!");
 	API.moderateDeleteChat(data.chatID);
+}
+function f_profanity(data){
+	if(o_settings.profanityfilter){
+		API.sendChat("Hey, @"+data.from+" ! Please watch your language!");
+		API.moderateDeleteChat(data.chatID);
+	} 
 }
 function f_fb(data){
 	API.sendChat("Hey, "+data.from+" , our fb page is located at: http://goo.gl/vpHWz");
