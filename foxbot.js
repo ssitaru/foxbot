@@ -11,6 +11,7 @@
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.12.2.1
 //	-Added Powdered Toast Man's custom drink
+//	-Added variable welcome message
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.10.2.1
 //	-Added 2 jokes
@@ -59,6 +60,7 @@ var o_settings = {
 	profanityfilter: false,
 	maxSongLength: 8, // in mins.
     rules: 'Play EDM only, no Trap. 8 min max. Please show love and respect to everyone.',
+    welcome: 'Thank you for plugging in!',
 	strictMode: false,
 	i_timerID: null,
 	f_autoSkip: f_long
@@ -828,7 +830,7 @@ function join(user){
 		API.sendChat("/me :: A wild moderator appears! Wait, no. We know this one. The moderator's name is "+user.username+" . Well, that was anticlimactic. Now back to regular programming");
 	}
 	else{
-		API.sendChat("/me :: Welcome @" + user.username + " to " + Models.room.data.name + ". Thank you for plugging in!");
+		API.sendChat("/me :: Welcome @" + user.username + " to " + Models.room.data.name + ". "+o_settings.rules);
 		//window.setTimeout(function(){f_rule({from: user.username});}, 1000); //Uncomment to send rules
 	}
 }
