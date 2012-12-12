@@ -6,8 +6,11 @@
 ////////////////////////////////////////////////////////////////
 //	foxbot.js :: A robot that automates certain functions for
 //		plug.dj
-//	Version 101.12.6.4.2
+//	Version 101.12.12.2.1
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me
+////////////////////////////////////////////////////////////////
+//	Changelog v. 101.12.12.2.1
+//	-Added Powdered Toast Man's custom drink
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.10.2.1
 //	-Added 2 jokes
@@ -63,7 +66,7 @@ var o_settings = {
 var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = false;
-var cur_Vers="101.12.10.2.1";
+var cur_Vers="101.12.12.2.1";
 
 var o_chatcmds = {
 	/////////////////////////////////////////////
@@ -1032,6 +1035,10 @@ function f_drink(data) {
 		case "50aeae9bc3b97a2cb4c25954":
 			//Kendall
 			API.sendChat("Here's your water @"+data.from+", Enjoy!");
+			break;
+		case "50aeb0173e083e18fa2d3de0":
+			//Powdered Toast Man
+			API.sendChat("Here's your cheap redneck whiskey @"+data.from+", Enjoy!");
 			break;
 		default:
 			API.sendChat('Here is your generic strong alcoholic beverage @'+data.from+' , enjoy!');
