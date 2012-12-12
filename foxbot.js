@@ -830,7 +830,7 @@ function join(user){
 		API.sendChat("/me :: A wild moderator appears! Wait, no. We know this one. The moderator's name is "+user.username+" . Well, that was anticlimactic. Now back to regular programming");
 	}
 	else{
-		API.sendChat("/me :: Welcome @" + user.username + " to " + Models.room.data.name + ". "+o_settings.rules);
+		API.sendChat("/me :: Welcome @" + user.username + " to " + Models.room.data.name + ". "+o_settings.welcome);
 		//window.setTimeout(function(){f_rule({from: user.username});}, 1000); //Uncomment to send rules
 	}
 }
