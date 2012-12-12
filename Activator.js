@@ -7,9 +7,14 @@ var o_chaincmds = {
 };
 
 function f_chainloadInit() {
-API.sendChat('/me Foxbot standing by, type /activate to initiate!');
-API.addEventListener(API.CHAT, f_chainChat);
-} 
+	API.sendChat('/me Foxbot standing by, type /activate to initiate!');
+	API.addEventListener(API.CHAT, f_chainChat);
+}
+function f_activecheck() {
+	if(Activated != 1){
+		API.sendChat("/me Hey staffmembers of this room! It would be very nice if you would type /activate to initiate me!");
+	}
+}
 function f_chainChat(data) {
 	if(data.type == "message"){
 		for(var s in o_chaincmds)  {
@@ -36,3 +41,4 @@ function f_chainChat(data) {
 }
 
 window.setTimeout(function(){f_chainloadInit();},10000);
+window.setTimeout(function(){f_activecheck();},70000);
