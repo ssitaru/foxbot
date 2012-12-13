@@ -6,8 +6,23 @@
 ////////////////////////////////////////////////////////////////
 //	foxbot.js :: A robot that automates certain functions for
 //		plug.dj
-//	Version 101.12.6.4.2
+//	Version 101.12.13.2.1
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me
+////////////////////////////////////////////////////////////////
+//	Changelog v. 101.12.13.2.1
+//	-Added Announcer
+////////////////////////////////////////////////////////////////
+//	Changelog v. 101.12.12.2.1
+//	-Added Powdered Toast Man's custom drink
+//	-Added variable welcome message
+////////////////////////////////////////////////////////////////
+//	Changelog v. 101.12.10.2.1
+//	-Added 2 jokes
+//	-Added super's and Kendall's custom drink
+//	-Edited Init Message
+//	-Added profanityfilter (default off, use /set profanityfilter;true to turn on)
+//	-Edited facebook message
+//	-Added banned list
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.10.4.1
 //	-Fixed setting time limit from chat (101.12.6.4.1)
@@ -40,13 +55,16 @@
 
 //Begin Variable Declarations
 var o_settings = {
-    autoSkip: true,
-    autoWoot: true,
-    autoQueue: true,
-    welcomeMsg: true,
-    goodbyeMsg: true,
+    	autoSkip: true,
+    	autoWoot: true,
+    	autoQueue: true,
+    	welcomeMsg: true,
+    	goodbyeMsg: true,
+	profanityfilter: false,
+	announcer: true,
 	maxSongLength: 8, // in mins.
-    rules: 'Play EDM only, no Trap. 8 min max. Please show love and respect to everyone.',
+    	rules: 'Play EDM only, no Trap. 8 min max. Please show love and respect to everyone.',
+    	welcome: 'Thank you for plugging in!',
 	strictMode: false,
 	i_timerID: null,
 	f_autoSkip: f_long
@@ -54,7 +72,7 @@ var o_settings = {
 var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = false;
-var cur_Vers="101.12.10.4.2";
+var cur_Vers="101.12.13.2.1";
 
 var o_chatcmds = {
 	/////////////////////////////////////////////
@@ -102,6 +120,11 @@ var o_chatcmds = {
 	},
 	'/whymeh': {
 		f: f_whymeh,
+		needsPerm: false,
+		visible: true
+	},
+	'/banned': {
+		f: f_bannedlist,
 		needsPerm: false,
 		visible: true
 	},
@@ -219,7 +242,72 @@ var o_chatcmds = {
 		f: f_suidobashijuko,
 		needsPerm: false,
 		visible: false
-	}, 
+	},
+	'fuck': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'Fuck': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'FUck': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'FUCk': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'FUCK': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'FuCk': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'FucK': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'fUck': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'fuCk': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'fucK': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'fUCk': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'fUcK': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
+	'fuCK': {
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},
 	////////////////////////////////////////////
 	// chmod 110
 	////////////////////////////////////////////
@@ -709,6 +797,12 @@ A. The month of March!\
 Q. What did the painter say to the wall? \
 A. One more crack like that and I'll plaster you!\
 ","\
+Q. What do you call a mexican rolling in the sand? \
+A. A Churro!\
+","\
+Q. Whats similar about jimmie saville and santa claus?  \
+A. They both leave kids rooms with empty sacks o_o \
+","\
 Q. Why do golfers wear two pairs of pants? \
 A. In case they get a hole in one!\
 ","\
@@ -721,7 +815,7 @@ A. A pair of slippers.\
 
 //Begin Function Declarations
 function f_foxbotInit() {
-	window.setTimeout(function(){API.sendChat('/me This user is now running foxbot!');}, 5000);
+	API.sendChat('/me Foxbot activated!');
 	b_hasModRights = API.getSelf().permission.toString()>1;
 	// now all the event listeners
 	API.addEventListener(API.USER_JOIN, join);
@@ -740,7 +834,7 @@ function join(user){
 		API.sendChat("/me :: A wild moderator appears! Wait, no. We know this one. The moderator's name is "+user.username+" . Well, that was anticlimactic. Now back to regular programming");
 	}
 	else{
-		API.sendChat("/me :: Welcome @" + user.username + " to " + Models.room.data.name + ". Thank you for plugging in!");
+		API.sendChat("/me :: Welcome @" + user.username + " to " + Models.room.data.name + ". "+o_settings.welcome);
 		//window.setTimeout(function(){f_rule({from: user.username});}, 1000); //Uncomment to send rules
 	}
 }
@@ -940,8 +1034,20 @@ function f_drink(data) {
 			//97#DJMnC#79
 			API.sendChat("Here's your Coca Cola @"+data.from+", Enjoy!");
 			break;
+		case "50aeb11a96fba52c3ca0699e":
+			//super
+			API.sendChat("Here's your Absinthe Frappé @"+data.from+", Enjoy good sir!");
+			break;
+		case "50aeae9bc3b97a2cb4c25954":
+			//Kendall
+			API.sendChat("Here's your water @"+data.from+", Enjoy!");
+			break;
+		case "50aeb0173e083e18fa2d3de0":
+			//Powdered Toast Man
+			API.sendChat("Here's your cheap redneck whiskey @"+data.from+", Enjoy!");
+			break;
 		default:
-			API.sendChat('Here is your strong alcoholic beverage @'+data.from+' , enjoy!');
+			API.sendChat('Here is your generic strong alcoholic beverage @'+data.from+' , enjoy!');
 	}
 }
 function f_whymeh(data) {
@@ -953,7 +1059,7 @@ function f_joke(data) {
     API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
-	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', MSL: '+o_settings.maxSongLength+', AW: '+o_settings.autoWoot+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
+	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', MSL: '+o_settings.maxSongLength+', AW: '+o_settings.autoWoot+', AQ: N/A, AN: '+o_settings.announcer+', M: '+b_hasModRights+']';
 	API.sendChat('/me Systems are online and functional! '+s);
 }
 function f_reload(data) {
@@ -1074,10 +1180,26 @@ function f_suidobashijuko(data){
 	API.sendChat("Why are we talking about the suidobashijuko again? Are you going to buy me one?");
 }
 function f_nospam(data){
-	API.sendChat("Hey, "+data.from+" ! Please do not adverise plug.dj rooms in here, thanks!");
+	API.sendChat("Hey, @"+data.from+" ! Please do not adverise plug.dj rooms in here, thanks!");
 	API.moderateDeleteChat(data.chatID);
 }
-function f_fb(data){
-	API.sendChat("Hey, "+data.from+" , our fb page is located at: http://goo.gl/vpHWz");
+function f_profanity(data){
+	if(o_settings.profanityfilter){
+		API.sendChat("Hey, @"+data.from+" ! Please watch your language!");
+		API.moderateDeleteChat(data.chatID);
+	} 
 }
-f_foxbotInit();
+function f_fb(data){
+	API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook page at http://goo.gl/vpHWz !");
+}
+function f_bannedlist(data){
+	API.sendChat("/me Click the following link to see the list of songs that are banned: http://goo.gl/9tLE7")
+}
+function f_announcer(){
+	if(o_settings.announcer){
+		API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook group at http://goo.gl/vpHWz !");
+		window.setTimeout(function(){API.sendChat("/me Also check out the list of banned songs at http://goo.gl/9tLE7 !");},1000);
+	}
+}
+window.setTimeout(function(){f_foxbotInit();},5000);
+window.setInterval(function(){f_announcer();},(1000 * 30 * 60));
