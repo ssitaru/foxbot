@@ -6,8 +6,11 @@
 ////////////////////////////////////////////////////////////////
 //	foxbot.js :: A robot that automates certain functions for
 //		plug.dj
-//	Version 101.12.12.2.1
+//	Version 101.12.13.2.1
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me
+////////////////////////////////////////////////////////////////
+//	Changelog v. 101.12.13.2.1
+//	-Added Announcer
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.12.2.1
 //	-Added Powdered Toast Man's custom drink
@@ -52,15 +55,16 @@
 
 //Begin Variable Declarations
 var o_settings = {
-    autoSkip: true,
-    autoWoot: true,
-    autoQueue: true,
-    welcomeMsg: true,
-    goodbyeMsg: true,
+    	autoSkip: true,
+    	autoWoot: true,
+    	autoQueue: true,
+    	welcomeMsg: true,
+    	goodbyeMsg: true,
 	profanityfilter: false,
+	announcer: true,
 	maxSongLength: 8, // in mins.
-    rules: 'Play EDM only, no Trap. 8 min max. Please show love and respect to everyone.',
-    welcome: 'Thank you for plugging in!',
+    	rules: 'Play EDM only, no Trap. 8 min max. Please show love and respect to everyone.',
+    	welcome: 'Thank you for plugging in!',
 	strictMode: false,
 	i_timerID: null,
 	f_autoSkip: f_long
@@ -68,7 +72,7 @@ var o_settings = {
 var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = false;
-var cur_Vers="101.12.12.2.1";
+var cur_Vers="101.12.13.2.1";
 
 var o_chatcmds = {
 	/////////////////////////////////////////////
@@ -1055,7 +1059,7 @@ function f_joke(data) {
     API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
-	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', MSL: '+o_settings.maxSongLength+', AW: '+o_settings.autoWoot+', AQ: '+o_settings.autoQueue+', M: '+b_hasModRights+']';
+	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', MSL: '+o_settings.maxSongLength+', AW: '+o_settings.autoWoot+', AQ: N/A, AN: '+o_settings.announcer+', M: '+b_hasModRights+']';
 	API.sendChat('/me Systems are online and functional! '+s);
 }
 function f_reload(data) {
@@ -1191,4 +1195,11 @@ function f_fb(data){
 function f_bannedlist(data){
 	API.sendChat("/me Click the following link to see the list of songs that are banned: http://goo.gl/9tLE7")
 }
+function f_announcer(){
+	if(o_settings.announcer){
+		API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook group at http://goo.gl/vpHWz !");
+		window.setTimeout(function(){API.sendChat("/me Also check out the list of banned songs at http://goo.gl/9tLE7 !");},1000);
+	}
+}
 window.setTimeout(function(){f_foxbotInit();},5000);
+window.setInterval(function(){f_announcer();},(1000 * 30 * 60));
