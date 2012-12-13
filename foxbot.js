@@ -11,6 +11,7 @@
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.13.2.1
 //	-Added Announcer
+//	-Added twitter
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.12.2.1
 //	-Added Powdered Toast Man's custom drink
@@ -1190,14 +1191,14 @@ function f_profanity(data){
 	} 
 }
 function f_fb(data){
-	API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook page at http://goo.gl/vpHWz !");
+	API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook page at http://goo.gl/vpHWz and Follow us on twitter @ElectronicELE !");
 }
 function f_bannedlist(data){
 	API.sendChat("/me Click the following link to see the list of songs that are banned: http://goo.gl/9tLE7")
 }
 function f_announcer(){
 	if(o_settings.announcer){
-		API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook group at http://goo.gl/vpHWz !");
+		API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook group at http://goo.gl/vpHWz and Follow us on twitter @ElectronicELE !");
 		window.setTimeout(function(){API.sendChat("/me Also check out the list of banned songs at http://goo.gl/9tLE7 !");},1000);
 	}
 }
