@@ -834,7 +834,7 @@ function f_commands(data){
 		}
 	}
 	cmds_clean = cmds.slice(0, -2);
-	API.sendChat('/me Commands currently supported are: '+cmds_clean');
+	API.sendChat('/me Commands currently supported are: '+cmds_clean);
 	window.setTimeout(function(){API.sendChat("/me Commands always trigger, staff should be careful with mod commands!");},5000);
 }
 
