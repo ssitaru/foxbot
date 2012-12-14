@@ -76,6 +76,10 @@ var b_hasModRights = false;
 var cur_Vers="101.12.13.2.1";
 
 var o_chatcmds = {
+        /*
+         * List of important chat strings, detected and handled accordingly in the f_checkChat method.
+         * Note that the new chat parsing system requires all chat flags listed below to be entirely lowercase.
+         */
 	/////////////////////////////////////////////
 	// chmod 555
 	/////////////////////////////////////////////
@@ -214,26 +218,6 @@ var o_chatcmds = {
 		needsPerm: false,
 		visible: false
 	}, 
-	'no U': {
-		f: f_nou,
-		needsPerm: false,
-		visible: false
-	}, 
-	'No u': {
-		f: f_nou,
-		needsPerm: false,
-		visible: false
-	},
-	'No U': {
-		f: f_nou,
-		needsPerm: false,
-		visible: false
-	},
-	'NO U': {
-		f: f_nou,
-		needsPerm: false,
-		visible: false
-	},
 	'plug.dj/': {
 		f: f_nospam,
 		needsPerm: false,
@@ -244,67 +228,44 @@ var o_chatcmds = {
 		needsPerm: false,
 		visible: false
 	},
-	'fuck': {
+        // Language handling (currently English only, so users can feel free to get colorful in French...)
+        // This list can be further populated as necessary but this should cover the basics
+        'fuck': {
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'Fuck': {
+        'shit': {
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'FUck': {
+        'damn': { // This may not be profane enough to make the list, I'll leave the decision to the powers above me
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'FUCk': {
+        'bitch': {
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'FUCK': {
+        'fag': { // Works for 'faggot'
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'FuCk': {
+        'cunt': {
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'FucK': {
+        'whore': {
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'fUck': {
-		f: f_profanity,
-		needsPerm: false,
-		visible: false
-	},
-	'fuCk': {
-		f: f_profanity,
-		needsPerm: false,
-		visible: false
-	},
-	'fucK': {
-		f: f_profanity,
-		needsPerm: false,
-		visible: false
-	},
-	'fUCk': {
-		f: f_profanity,
-		needsPerm: false,
-		visible: false
-	},
-	'fUcK': {
-		f: f_profanity,
-		needsPerm: false,
-		visible: false
-	},
-	'fuCK': {
+        'nigger': {
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
@@ -316,7 +277,7 @@ var o_chatcmds = {
 		f: f_reload,
 		needsPerm: true,
 		visible: false
-	},
+	}
 	////////////////////////////////////////////
 	// chmod 100 ::TEST COMMANDS
 	////////////////////////////////////////////
@@ -905,7 +866,7 @@ function f_unlock(data){
 }
 function f_retry(data) {
 	API.sendChat('/me Please choose a different song and try again.');
-	window.setTimeout(function(){ rpcGW.execute('room.update_options', null, Models.room.data.id,
+	window.setTimeout(function(){rpcGW.execute('room.update_options', null, Models.room.data.id,
 		{
 			name: Models.room.data.name,
 			description: Models.room.data.description,
@@ -1037,7 +998,7 @@ function f_drink(data) {
 			break;
 		case "50aeb11a96fba52c3ca0699e":
 			//super
-			API.sendChat("Here's your Absinthe FrappÃ© @"+data.from+", Enjoy good sir!");
+			API.sendChat("Here's your Absinthe Frappé @"+data.from+", Enjoy good sir!");
 			break;
 		case "50aeae9bc3b97a2cb4c25954":
 			//Kendall
@@ -1100,13 +1061,13 @@ function f_checkChat(data) {
 //Will work on this. It's kind of annoying as it stands and doesn't allow for cool stuff
 	if((data.type == "message") && (data.fromID != API.getSelf().id) ) {
 		for(var s in o_chatcmds) {
-			if(data.message.toString().indexOf(s) != -1) { 
+			if(data.message.toString().toLowerCase().indexOf(s) != -1) { // The only requesite of this more efficient chat parsing system is that all chat vars are lowercase
 				if(o_chatcmds[s].needsPerm){
 					if(API.getUser(data.fromID).permission.toString()>1){
 						o_chatcmds[s].f(data);
 					}
 					else{
-						API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
+						API.sendChat('I\'m sorry, @' + data.from + ', but I\'m afraid I can\'t let you do that.');
 					}
 				}
 				else{
