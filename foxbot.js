@@ -12,6 +12,7 @@
 //	Changelog v. 101.12.14.2.1
 //	-Changed announcer and banned messages to retry
 //	-Edited join announcements a bit
+//	-Added PF (profanityfilter) to test command
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.13.5.1
 //	-Changed profanity command handling
@@ -1028,7 +1029,7 @@ function f_joke(data) {
     API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
-	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', MSL: '+o_settings.maxSongLength+', AW: '+o_settings.autoWoot+', AQ: N/A, AN: '+o_settings.announcer+', M: '+b_hasModRights+']';
+	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', MSL: '+o_settings.maxSongLength+', AW: '+o_settings.autoWoot+', AQ: N/A, AN: '+o_settings.announcer+', PF: '+o_settings.profanityfilter+' M: '+b_hasModRights+']';
 	API.sendChat('/me Systems are online and functional! '+s);
 }
 function f_reload(data) {
