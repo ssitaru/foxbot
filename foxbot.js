@@ -1007,7 +1007,7 @@ function f_drink(data) {
 			break;
 		case "50aeb11a96fba52c3ca0699e":
 			//super
-			API.sendChat("Here's your Absinthe Frapp� @"+data.from+", Enjoy good sir!");
+			API.sendChat("Here's your Absinthe Frappé @"+data.from+", Enjoy good sir!");
 			break;
 		case "50aeae9bc3b97a2cb4c25954":
 			//Kendall
