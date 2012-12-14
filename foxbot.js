@@ -6,8 +6,15 @@
 ////////////////////////////////////////////////////////////////
 //	foxbot.js :: A robot that automates certain functions for
 //		plug.dj
-//	Version 101.12.13.2.1
-//	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me
+//	Version 101.12.14.2.1
+//	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me, Linear Logic
+////////////////////////////////////////////////////////////////
+//	Changelog v. 101.12.14.2.1
+//	-Changed announcer and banned messages to retry
+//	-Edited join announcements a bit
+////////////////////////////////////////////////////////////////
+//	Changelog v. 101.12.13.5.1
+//	-Changed profanity command handling
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.13.2.1
 //	-Added Announcer
@@ -61,7 +68,7 @@ var o_settings = {
     	autoQueue: true,
     	welcomeMsg: true,
     	goodbyeMsg: true,
-	profanityfilter: false,
+	profanityfilter: true,
 	announcer: true,
 	maxSongLength: 8, // in mins.
     	rules: 'Play EDM only, no Trap. 8 min max. Please show love and respect to everyone.',
@@ -73,9 +80,13 @@ var o_settings = {
 var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = false;
-var cur_Vers="101.12.13.2.1";
+var cur_Vers="101.12.14.2.1";
 
 var o_chatcmds = {
+        /*
+         * List of important chat strings, detected and handled accordingly in the f_checkChat method.
+         * Note that the new chat parsing system requires all chat flags listed below to be entirely lowercase.
+         */
 	/////////////////////////////////////////////
 	// chmod 555
 	/////////////////////////////////////////////
@@ -124,8 +135,8 @@ var o_chatcmds = {
 		needsPerm: false,
 		visible: true
 	},
-	'/banned': {
-		f: f_bannedlist,
+	'/rl': {
+		f: f_retrylist,
 		needsPerm: false,
 		visible: true
 	},
@@ -214,26 +225,6 @@ var o_chatcmds = {
 		needsPerm: false,
 		visible: false
 	}, 
-	'no U': {
-		f: f_nou,
-		needsPerm: false,
-		visible: false
-	}, 
-	'No u': {
-		f: f_nou,
-		needsPerm: false,
-		visible: false
-	},
-	'No U': {
-		f: f_nou,
-		needsPerm: false,
-		visible: false
-	},
-	'NO U': {
-		f: f_nou,
-		needsPerm: false,
-		visible: false
-	},
 	'plug.dj/': {
 		f: f_nospam,
 		needsPerm: false,
@@ -244,67 +235,44 @@ var o_chatcmds = {
 		needsPerm: false,
 		visible: false
 	},
-	'fuck': {
+        // Language handling (currently English only, so users can feel free to get colorful in French...)
+        // This list can be further populated as necessary but this should cover the basics
+        'fuck': {
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'Fuck': {
+        'shit': {
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'FUck': {
+        /*'damn': { // This may not be profane enough to make the list, I'll leave the decision to the powers above me
+		f: f_profanity,
+		needsPerm: false,
+		visible: false
+	},*/
+        'bitch': {
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'FUCk': {
+        'fag': { // Works for 'faggot'
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'FUCK': {
+        'cunt': {
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'FuCk': {
+        'whore': {
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
 	},
-	'FucK': {
-		f: f_profanity,
-		needsPerm: false,
-		visible: false
-	},
-	'fUck': {
-		f: f_profanity,
-		needsPerm: false,
-		visible: false
-	},
-	'fuCk': {
-		f: f_profanity,
-		needsPerm: false,
-		visible: false
-	},
-	'fucK': {
-		f: f_profanity,
-		needsPerm: false,
-		visible: false
-	},
-	'fUCk': {
-		f: f_profanity,
-		needsPerm: false,
-		visible: false
-	},
-	'fUcK': {
-		f: f_profanity,
-		needsPerm: false,
-		visible: false
-	},
-	'fuCK': {
+        'nigger': {
 		f: f_profanity,
 		needsPerm: false,
 		visible: false
@@ -316,7 +284,7 @@ var o_chatcmds = {
 		f: f_reload,
 		needsPerm: true,
 		visible: false
-	},
+	}
 	////////////////////////////////////////////
 	// chmod 100 ::TEST COMMANDS
 	////////////////////////////////////////////
@@ -829,10 +797,10 @@ function f_foxbotInit() {
 }
 function join(user){
 	if(user.id=="50aeb20fc3b97a2cb4c2d804"){
-		API.sendChat("/me :: All hail our Extreme Overlord, @"+user.username+" ! Welcome back master!");
+		API.sendChat("/me :: All hail our Supreme Overlord, @"+user.username+" ! Welcome back master!");
 	}
 	else if(user.permission.toString()>1){
-		API.sendChat("/me :: A wild moderator appears! Wait, no. We know this one. The moderator's name is "+user.username+" . Well, that was anticlimactic. Now back to regular programming");
+		API.sendChat("/me :: A wild moderator appears! Wait, no. We know this one. The moderator's name is @"+user.username+" .");
 	}
 	else{
 		API.sendChat("/me :: Welcome @" + user.username + " to " + Models.room.data.name + ". "+o_settings.welcome);
@@ -905,7 +873,7 @@ function f_unlock(data){
 }
 function f_retry(data) {
 	API.sendChat('/me Please choose a different song and try again.');
-	window.setTimeout(function(){ rpcGW.execute('room.update_options', null, Models.room.data.id,
+	window.setTimeout(function(){rpcGW.execute('room.update_options', null, Models.room.data.id,
 		{
 			name: Models.room.data.name,
 			description: Models.room.data.description,
@@ -944,7 +912,7 @@ function f_rule(data) {
 	API.sendChat('/me Rules: '+o_settings.rules);
 }
 function f_about(data) {
-	API.sendChat('/me [foxbot v'+cur_Vers+'] by 1NT, foxtrotfire, royal soda, [tw].me. Type in "/commands" to find out how to interact with me.');
+	API.sendChat('/me [foxbot v'+cur_Vers+'] by 1NT, foxtrotfire, royal soda, [tw].me, Linear Logic. Type in "/commands" to find out how to interact with me.');
 }
 function f_brb(data) {
 	API.sendChat('@'+data.from+' Hurry back!!');
@@ -1037,7 +1005,7 @@ function f_drink(data) {
 			break;
 		case "50aeb11a96fba52c3ca0699e":
 			//super
-			API.sendChat("Here's your Absinthe Frappé @"+data.from+", Enjoy good sir!");
+			API.sendChat("Here's your Absinthe Frapp� @"+data.from+", Enjoy good sir!");
 			break;
 		case "50aeae9bc3b97a2cb4c25954":
 			//Kendall
@@ -1100,13 +1068,13 @@ function f_checkChat(data) {
 //Will work on this. It's kind of annoying as it stands and doesn't allow for cool stuff
 	if((data.type == "message") && (data.fromID != API.getSelf().id) ) {
 		for(var s in o_chatcmds) {
-			if(data.message.toString().indexOf(s) != -1) { 
+			if(data.message.toString().toLowerCase().indexOf(s) != -1) { // The only requesite of this more efficient chat parsing system is that all chat vars are lowercase
 				if(o_chatcmds[s].needsPerm){
 					if(API.getUser(data.fromID).permission.toString()>1){
 						o_chatcmds[s].f(data);
 					}
 					else{
-						API.sendChat('@'+data.from+': Im sorry Dave, but Im afraid I cant let you do that.');
+						API.sendChat('I\'m sorry, @' + data.from + ', but I\'m afraid I can\'t let you do that.');
 					}
 				}
 				else{
@@ -1193,13 +1161,13 @@ function f_profanity(data){
 function f_fb(data){
 	API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook page at http://goo.gl/vpHWz and Follow us on twitter @ElectronicELE !");
 }
-function f_bannedlist(data){
-	API.sendChat("/me Click the following link to see the list of songs that are banned: http://goo.gl/9tLE7")
+function f_retrylist(data){
+	API.sendChat("/me Click the following link to see the songs that are on the retry list: http://goo.gl/9tLE7")
 }
 function f_announcer(){
 	if(o_settings.announcer){
 		API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook group at http://goo.gl/vpHWz and Follow us on twitter @ElectronicELE !");
-		window.setTimeout(function(){API.sendChat("/me Also check out the list of banned songs at http://goo.gl/9tLE7 !");},1000);
+		window.setTimeout(function(){API.sendChat("/me Also check out the list of retry songs at http://goo.gl/9tLE7 !");},1000);
 	}
 }
 window.setTimeout(function(){f_foxbotInit();},5000);
