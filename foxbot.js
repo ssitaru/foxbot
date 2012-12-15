@@ -1167,7 +1167,7 @@ function f_nospam(data){
 }
 function f_profanity(data){
 	if(o_settings.profanityfilter){
-		if(user.permission.toString()<2){
+		if(data.permission.toString()<2){
 			API.sendChat("Hey, @"+data.from+" ! Please watch your language!");
 			API.moderateDeleteChat(data.chatID);
 		}	
