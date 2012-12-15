@@ -824,7 +824,7 @@ function leave(user){
 
 
 function f_curate(data){
-	if(user.id=="50aeb020d6e4a94f774740a9"){
+	if(data.user.id=="50aeb020d6e4a94f774740a9"){
 		API.sendChat("/me Saved this for later.");
 	}
 	else{
