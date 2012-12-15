@@ -6,13 +6,15 @@
 ////////////////////////////////////////////////////////////////
 //	foxbot.js :: A robot that automates certain functions for
 //		plug.dj
-//	Version 101.12.14.2.1
+//	Version 101.12.15.2.2
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me, Linear Logic
 ////////////////////////////////////////////////////////////////
-//	Changelog v. 101.12.14.2.1
+//	Changelog v. 101.12.15.2.2
 //	-Changed announcer and banned messages to retry
 //	-Edited join announcements a bit
 //	-Added PF (profanityfilter) to test command
+//	-Added Ace1994 custom drink
+//	-Changed profanity filter to user only
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.13.5.1
 //	-Changed profanity command handling
@@ -81,7 +83,7 @@ var o_settings = {
 var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = false;
-var cur_Vers="101.12.14.2.1";
+var cur_Vers="101.12.15.2.2";
 
 var o_chatcmds = {
         /*
@@ -1022,6 +1024,10 @@ function f_drink(data) {
 			//Powdered Toast Man
 			API.sendChat("Here's your cheap redneck whiskey @"+data.from+", Enjoy!");
 			break;
+		case "50aeb04a3e083e18fa2d48f0":
+			//Ace1994
+			API.sendChat("Here's your Mystery Drink @"+data.from+", nobody knows what is in it, so Enjoy!");
+			break;
 		default:
 			API.sendChat('Here is your generic strong alcoholic beverage @'+data.from+' , enjoy!');
 	}
@@ -1160,9 +1166,11 @@ function f_nospam(data){
 	API.moderateDeleteChat(data.chatID);
 }
 function f_profanity(data){
-	if(o_settings.profanityfilter){
-		API.sendChat("Hey, @"+data.from+" ! Please watch your language!");
-		API.moderateDeleteChat(data.chatID);
+	if(o_settings.profanityfilter)
+		if(user.permission.toString()<2){
+			API.sendChat("Hey, @"+data.from+" ! Please watch your language!");
+			API.moderateDeleteChat(data.chatID);
+		}	
 	} 
 }
 function f_fb(data){
