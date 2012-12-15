@@ -812,7 +812,7 @@ function join(user){
 
 function leave(user){
 	if(user.id=="50aeb20fc3b97a2cb4c2d804"){
-		API.sendChat("/me :: All hail our Extreme Overlord, @"+user.username+" ! Thank you for gracing us with your presence!");
+		API.sendChat("/me :: All hail our Supreme Overlord, @"+user.username+" ! Thank you for gracing us with your presence!");
 	}
 	else if(user.permission.toString()>1){
 		API.sendChat("/me :: Bye bye, Mr. Moderator, sir! Bye @"+user.username+" !");
@@ -824,7 +824,12 @@ function leave(user){
 
 
 function f_curate(data){
-	API.sendChat("/me " + data.user.username + " loves this track!");
+	if(user.id=="50aeb020d6e4a94f774740a9"){
+		API.sendChat("/me Saved this for later.");
+	}
+	else{
+		API.sendChat("/me " + data.user.username + " loves this track!");
+	}
 }
 function f_commands(data){
 	var cmds = '';
