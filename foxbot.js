@@ -961,7 +961,7 @@ function f_drink(data) {
 			break;
 		case "50aeb3fd96fba52c3ca0d0c2":
 			//micro
-			API.sendChat("Here's some tequila and chocolate milk. Down one drink, or down both. The choice is yours, "+data.from+" .");
+			API.sendChat("Here's some tequila and chocolate milk. Down one drink, or down both. The choice is yours, @"+data.from+" .");
 			break;
 		case "50aeb3aa877b9217e2fc8036":
 			//CopyLeft
@@ -1177,12 +1177,12 @@ function f_fb(data){
 	API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook page at http://goo.gl/vpHWz and Follow us on twitter @ElectronicELE !");
 }
 function f_retrylist(data){
-	API.sendChat("/me Click the following link to see the songs that are on the retry list: http://goo.gl/9tLE7")
+	API.sendChat("/me  Check out the list of songs we would rather you NOT play at http://goo.gl/9tLE7 !")
 }
 function f_announcer(){
 	if(o_settings.announcer){
 		API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook group at http://goo.gl/vpHWz and Follow us on twitter @ElectronicELE !");
-		window.setTimeout(function(){API.sendChat("/me Also check out the list of retry songs at http://goo.gl/9tLE7 !");},1000);
+		window.setTimeout(function(){API.sendChat("/me Also check out the list of songs we would rather you NOT play at http://goo.gl/9tLE7 !");},1000);
 	}
 }
 window.setTimeout(function(){f_foxbotInit();},5000);
