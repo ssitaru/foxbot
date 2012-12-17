@@ -1,4 +1,6 @@
-﻿foxbot - a bot for plug.dj
+﻿NOTE: This version is kept for historical reasons. If you would like to see the newest version, head over to foxtrotfire's [github](https://github.com/foxtrotfire/foxbot).
+
+foxbot - a bot for plug.dj
 ==========================
 foxbot is a great way for room moderators on [plug.dj](http://plug.dj) to entertain and manage the crowd.
 
@@ -24,7 +26,7 @@ Currently we support three methods of installation:
 
 Authors
 -------
-* Sebastian Sitaru &lt;s.sitaru@gmx.de&gt; (1NT)
+* 1NT &lt;s.sitaru@gmx.de&gt;
 * FoxtrotFire
 
 Find us in the [Super Awesome Electronic Room](http://www.plug.dj/super-awesome-edm-room-2/) (TZ: GMT+1).
