@@ -28,8 +28,10 @@ Authors
 -------
 * 1NT &lt;s.sitaru@gmx.de&gt;
 * FoxtrotFire
+* Royal_Soda (http://www.harry-j.com/)
+* [tw].me
 
-Find us in the [Super Awesome Electronic Room](http://www.plug.dj/super-awesome-edm-room-2/) (TZ: GMT+1).
+Find us in [Electronic Elements](http://plug.dj/electronic-elementz-1/) (TZ: GMT+1).
 If you copy our code, please mention us and include a link to this page.
 
 Changelog
