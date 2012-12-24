@@ -30,6 +30,7 @@ Authors
 * FoxtrotFire
 * Royal_Soda (http://www.harry-j.com/)
 * [tw].me
+* Linear Logic
 
 Find us in [Electronic Elements](http://plug.dj/electronic-elementz-1/) (TZ: GMT+1).
 If you copy our code, please mention us and include a link to this page.
